@@ -1,11 +1,10 @@
 import { model, Schema } from 'mongoose'
 
 const Itinerary = new Schema({
-  legs: {
-    type: Array,
-    unique: false,
-    required: [true, 'What are the flights of this itinerary?']
-  },
+  legs: [{
+    type: Schema.Types.ObjectId,
+    ref: 'Leg'
+  }],
   price: {
     type: Number,
     required: [true, 'What is the price of this travel itinerary?']
