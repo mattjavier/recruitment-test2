@@ -50,7 +50,7 @@ const Home = props => {
       >
 
         {/* Form to Add Itinerary */}
-        <ItineraryForm />
+        {/* <ItineraryForm /> */}
         {/* List of Itineraries */}
         <Flights 
           itineraries={props.itineraries}
