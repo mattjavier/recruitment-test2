@@ -88,7 +88,7 @@ const Leg = props => {
       >
         {/* Flight Duration */}
         <Typography
-          color="textSecondary" 
+          color="secondary" 
         >
           {`${hours(props.leg.duration_mins)}h ${minutes(props.leg.duration_mins)}`}
         </Typography>
