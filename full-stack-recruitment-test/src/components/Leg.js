@@ -32,6 +32,12 @@ const useStyles = makeStyles((theme) => ({
   },
   right: {
     marginRight: theme.spacing(2.5)
+  },
+  success: {
+    color: theme.palette.success.main
+  },
+  error: {
+    color: theme.palette.error.main 
   }
 }))
 
@@ -108,7 +114,7 @@ const Leg = (props) => {
         {
           props.leg.stops > 0 ? (
             <Typography
-              color="error"
+              className={classes.error}
             >
               {props.leg.stops} {
                 props.leg.stops > 1 ? ('Stops') : ('Stop')
@@ -116,7 +122,7 @@ const Leg = (props) => {
             </Typography>
           ) : (
             <Typography 
-              color="success"
+              className={classes.success}
             >
               Direct
             </Typography>
