@@ -1,4 +1,4 @@
-const { model, Schema } = require('mongoose')
+const { model, models, Schema } = require('mongoose')
 
 const Itinerary = new Schema({
   legs: [{
@@ -20,4 +20,4 @@ const Itinerary = new Schema({
   },
 })
 
-module.exports = model('Itinerary', Itinerary)
+module.exports = models.Itinerary || model('Itinerary', Itinerary)

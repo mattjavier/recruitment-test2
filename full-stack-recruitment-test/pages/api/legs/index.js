@@ -1,5 +1,5 @@
 import connect from '../../../utils/connect'
-import { Itinerary } from '../../../models'
+import  { Leg } from '../../../models'
 
 connect()
 
@@ -9,18 +9,18 @@ export default async (req, res) => {
   switch (method) {
     case 'GET':
       try {
-        const itineraries = await Itinerary.find({})
+        const legs = await Leg.find({})
 
-        res.status(200).json({ success: true, data: itineraries })
+        res.status(200).json({ success: true, data: legs })
       } catch (error) {
         res.status(400).json({ success: false })
       }
       break
     case 'POST':
       try {
-        const itinerary = await Itinerary.create(req.body)
+        const leg = await Leg.create(req.body)
         
-        res.status(201).json({ success: true, data: itinerary })
+        res.status(201).json({ success: true, data: leg })
       } catch (error) {
         res.status(400).json({ success: false })
       }
