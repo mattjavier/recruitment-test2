@@ -6,8 +6,12 @@ const Itinerary = new Schema({
       type: Schema.Types.ObjectId,
       ref: 'Leg',
     }],
-    maxlength: [2, 'Itinerary must have 2 legs'],
-    minlength: [2, 'Itinerary must have 2 legs']
+    validate: {
+      validator: function(l) {
+        return l.length === 2
+      },
+      message: 'An itinerary must have 2 legs'
+    }
   },
   price: {
     type: Number,
@@ -19,7 +23,9 @@ const Itinerary = new Schema({
   },
   agentRating: {
     type: Number,
-    required: [true, 'Please input a rating']
+    required: [true, 'Please input a rating'],
+    max: 10,
+    min: 0
   },
 })
 
