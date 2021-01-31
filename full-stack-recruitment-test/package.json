@@ -19,6 +19,7 @@
     "swr": "^0.4.1"
   },
   "devDependencies": {
+    "@shelf/jest-mongodb": "^1.2.3",
     "jest": "^26.6.3"
   }
 }
