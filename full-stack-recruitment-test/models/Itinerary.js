@@ -1,11 +1,14 @@
 const { model, models, Schema } = require('mongoose')
 
 const Itinerary = new Schema({
-  legs: [{
-    type: Schema.Types.ObjectId,
-    required: [true, 'Please select a flight'],
-    ref: 'Leg'
-  }],
+  legs: {
+    type: [{
+      type: Schema.Types.ObjectId,
+      ref: 'Leg',
+    }],
+    maxlength: [2, 'Itinerary must have 2 legs'],
+    minlength: [2, 'Itinerary must have 2 legs']
+  },
   price: {
     type: Number,
     required: [true, 'Please input a price']
