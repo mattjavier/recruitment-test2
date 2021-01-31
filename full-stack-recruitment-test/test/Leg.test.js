@@ -19,7 +19,8 @@ describe('Leg Model Test', () => {
   beforeAll(async () => {
     db = await mongoose.connect(global.__MONGO_URI__, {
       useNewUrlParser: true,
-      useCreateIndex: true
+      useCreateIndex: true,
+      useUnifiedTopology: true
     }, err => {
       if (err) {
         console.error(err)
