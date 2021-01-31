@@ -40,6 +40,7 @@ const Leg = new Schema({
     type: String,
     required: [true, 'What is the airline ID?'],
     uppercase: true,
+    minlength: [2, 'ID must be 2 characters in length'],
     maxlength: [2, 'ID must be 2 characters in length'],
     match: [/[A-Z]+/, 'Please input a valid ID']
   },
