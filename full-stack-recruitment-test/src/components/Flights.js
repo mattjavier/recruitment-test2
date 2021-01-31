@@ -28,7 +28,7 @@ const Flights = props => {
         props.itineraries.map(itinerary => {
           return (
             <Itinerary 
-              key={itinerary.id}
+              key={itinerary._id}
               itinerary={itinerary}
               legs={props.legs}
             />

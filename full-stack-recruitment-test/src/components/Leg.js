@@ -1,4 +1,5 @@
-import React from 'react'
+import React, { useState } from 'react'
+import fetch from 'isomorphic-unfetch'
 import { makeStyles } from '@material-ui/core/styles'
 import Grid from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography'
@@ -34,9 +35,19 @@ const useStyles = makeStyles((theme) => ({
   }
 }))
 
-const Leg = props => {
-  const classes = useStyles()
+const getLeg = async (id) => {
+  try {
+    const res = await fetch(`http://localhost:3000/api/legs/${id}`)
+    const { data } = await res.json()
+    return { leg: data }
+  } catch (error) {
+    console.log(error)
+  }
+} 
 
+const Leg = (props) => {
+  const classes = useStyles()
+  
   return (
     <Grid
       container
@@ -53,7 +64,7 @@ const Leg = props => {
       >
         {/* Airline Logo */}
         <img 
-          src={`https://logos.skyscnr.com/images/airlines/favicon/${props.leg.airline_id}.png`} 
+          src={`https://logos.skyscnr.com/images/airlines/favicon/${props.leg.airlineId}.png`} 
           alt="Airline Logo"
           className={classes.logo}
         />
@@ -61,8 +72,8 @@ const Leg = props => {
         {/* Departure */}
         <Time 
           info={{ 
-            airport: props.leg.departure_airport, 
-            time: props.leg.departure_time
+            airport: props.leg.departureAirport, 
+            time: props.leg.departureTime
           }}
         />
 
@@ -74,8 +85,8 @@ const Leg = props => {
         {/* Arrival */}
         <Time 
           info={{ 
-            airport: props.leg.arrival_airport, 
-            time: props.leg.arrival_time
+            airport: props.leg.arrivalAirport, 
+            time: props.leg.arrivalTime
           }}
         />
       </Grid>
@@ -90,7 +101,7 @@ const Leg = props => {
         <Typography
           color="secondary" 
         >
-          {`${hours(props.leg.duration_mins)}h ${minutes(props.leg.duration_mins)}`}
+          {`${hours(props.leg.durationMins)}h ${minutes(props.leg.durationMins)}`}
         </Typography>
         
         {/* Potential Stops */}
@@ -115,5 +126,13 @@ const Leg = props => {
     </Grid>
   )
 }
+
+// Leg.getInitialProps = async () => {
+  
+//   const res = await fetch(`http://localhost:3000/api/legs`)
+//   const { data } = await res.json()
+  
+//   return { legs: data }
+// }
 
 export default Leg

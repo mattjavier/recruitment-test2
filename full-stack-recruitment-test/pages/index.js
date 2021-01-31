@@ -24,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 const Home = props => {
-
+  console.log(props)  
   const classes = useStyles()
 
   return (
@@ -53,10 +53,10 @@ const Home = props => {
         {/* Form to Add Itinerary */}
         {/* <ItineraryForm /> */}
         {/* List of Itineraries */}
-        {/* <Flights 
+        <Flights 
           itineraries={props.itineraries}
           legs={props.legs}
-        /> */}
+        />
       </Grid>
 
       <footer className={styles.footer}>
@@ -73,22 +73,25 @@ const Home = props => {
   )
 }
 
-export const getStaticProps = async () => {
-  const json = flights
+// export const getStaticProps = async () => {
+//   const json = flights
 
-  return {
-    props: { 
-      itineraries: json.itineraries, 
-      legs: json.legs
-    }
-  }
-}
-
-// Home.getInitialProps = async () => {
-//   const res = await fetch('http://localhost:3000/api/itineraries')
-//   const { data } = await res.json()
-  
-//   return { itineraries: data }
+//   return {
+//     props: { 
+//       itineraries: json.itineraries, 
+//       legs: json.legs
+//     }
+//   }
 // }
+
+Home.getInitialProps = async () => {
+  const it_res = await fetch('http://localhost:3000/api/itineraries')
+  const itineraries = await it_res.json()
+
+  const lg_res = await fetch('http://localhost:3000/api/legs')
+  const legs = await lg_res.json()
+  
+  return { itineraries: itineraries.data, legs: legs.data }
+}
 
 export default Home

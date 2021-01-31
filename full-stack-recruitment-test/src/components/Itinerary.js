@@ -6,8 +6,9 @@ import Typography from '@material-ui/core/Typography'
 
 import Leg from './Leg'
 
-const formatString = numStr => {
-  let num = parseFloat(numStr).toFixed(1)
+const formatString = rating => {
+  let str = rating.toString()
+  let num = parseFloat(str).toFixed(1)
   return num.toString()
 }
 
@@ -38,7 +39,7 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 const Itinerary = props => {
-
+  
   const classes = useStyles()
 
   return (
@@ -49,12 +50,11 @@ const Itinerary = props => {
       >
         {/* Leg 1 */}
         <Leg 
-          leg={props.legs.find(item => item.id === props.itinerary.legs[0])}
+          leg={props.legs.find(leg => leg._id === props.itinerary.legs[0])}
         />
-
         {/* Leg 2 */}
         <Leg
-          leg={props.legs.find(item => item.id === props.itinerary.legs[1])}
+          leg={props.legs.find(leg => leg._id === props.itinerary.legs[1])}
         />
       </Grid>
       <Grid 
@@ -66,7 +66,7 @@ const Itinerary = props => {
           color="primary" 
           className={classes.price}
         >
-          {props.itinerary.price}
+          &pound;{props.itinerary.price}
         </Typography>
 
         {/* Flight Agent and Rating */}
@@ -77,7 +77,7 @@ const Itinerary = props => {
         >
           {props.itinerary.agent}
           <span>
-            &nbsp;({formatString(props.itinerary.agent_rating)})
+            &nbsp;({formatString(props.itinerary.agentRating)})
           </span>
         </Typography>
       </Grid>
