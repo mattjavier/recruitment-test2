@@ -5,7 +5,7 @@ import { makeStyles } from '@material-ui/core/styles'
 import Grid from '@material-ui/core/Grid'
 
 import Header from '../src/components/Header'
-import ItineraryForm from '../src/components/ItineraryForm'
+// import ItineraryForm from '../src/components/ItineraryForm'
 // import LegForm from '../src/components/LegForm'
 import Flights from '../src/components/Flights'
 
@@ -73,22 +73,22 @@ const Home = props => {
   )
 }
 
-// export const getStaticProps = async () => {
-//   const json = flights
+export const getStaticProps = async () => {
+  const json = flights
 
-//   return {
-//     props: { 
-//       itineraries: json.itineraries, 
-//       legs: json.legs
-//     }
-//   }
-// }
-
-Home.getInitialProps = async () => {
-  const res = await fetch('http://localhost:3000/api/itineraries')
-  const { data } = await res.json()
-  
-  return { itineraries: data }
+  return {
+    props: { 
+      itineraries: json.itineraries, 
+      legs: json.legs
+    }
+  }
 }
+
+// Home.getInitialProps = async () => {
+//   const res = await fetch('http://localhost:3000/api/itineraries')
+//   const { data } = await res.json()
+  
+//   return { itineraries: data }
+// }
 
 export default Home
