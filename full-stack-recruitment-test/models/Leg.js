@@ -1,13 +1,15 @@
-import { model, Schema } from 'mongoose'
+const { model, Schema } = require('mongoose')
 
 const Leg = new Schema({
   departureAirport: {
     type: String,
-    required: [true, 'What airport is this flight departing from?']
+    required: [true, 'What airport is this flight departing from?'],
+    maxlength: [3, 'Airport must be 3 characters in length']
   },
   arrivalAirport: {
     type: String,
-    required: [true, 'What airport is this flight arriving to?']
+    required: [true, 'What airport is this flight arriving to?'],
+    maxlength: [3, 'Airport must be 3 characters in length']
   },
   departureTime: {
     type: String,
@@ -27,7 +29,8 @@ const Leg = new Schema({
   },
   airlineId: {
     type: String,
-    required: [true, 'What is the airline ID?']
+    required: [true, 'What is the airline ID?'],
+    maxlength: [2, 'ID must be 2 characters in length']
   },
   durationMins: {
     type: Number,
@@ -35,4 +38,4 @@ const Leg = new Schema({
   }
 })
 
-export default model('Leg', Leg)
+module.exports = model('Leg', Leg)

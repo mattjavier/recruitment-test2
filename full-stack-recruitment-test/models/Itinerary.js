@@ -1,22 +1,23 @@
-import { model, Schema } from 'mongoose'
+const { model, Schema } = require('mongoose')
 
 const Itinerary = new Schema({
   legs: [{
     type: Schema.Types.ObjectId,
+    required: [true, 'Please select a flight'],
     ref: 'Leg'
   }],
   price: {
     type: Number,
-    required: [true, 'What is the price of this travel itinerary?']
+    required: [true, 'Please input a price']
   },
   agent: {
     type: String,
-    required: [true, 'What is the name of the agent?']
+    required: [true, 'Please input an agent']
   },
   agentRating: {
     type: Number,
-    required: [true, 'What is the rating of this agent?']
+    required: [true, 'Please input a rating']
   },
 })
 
-export default model('Itinerary', Itinerary)
+module.exports = model('Itinerary', Itinerary)
