@@ -1,4 +1,5 @@
 import Head from 'next/head'
+import fetch from 'isomorphic-unfetch'
 import styles from '../styles/Home.module.css'
 import { makeStyles } from '@material-ui/core/styles'
 import Grid from '@material-ui/core/Grid'
@@ -52,10 +53,10 @@ const Home = props => {
         {/* Form to Add Itinerary */}
         {/* <ItineraryForm /> */}
         {/* List of Itineraries */}
-        <Flights 
+        {/* <Flights 
           itineraries={props.itineraries}
           legs={props.legs}
-        />
+        /> */}
       </Grid>
 
       <footer className={styles.footer}>
@@ -72,15 +73,22 @@ const Home = props => {
   )
 }
 
-export const getStaticProps = async () => {
-  const json = flights
+// export const getStaticProps = async () => {
+//   const json = flights
 
-  return {
-    props: { 
-      itineraries: json.itineraries, 
-      legs: json.legs
-    }
-  }
+//   return {
+//     props: { 
+//       itineraries: json.itineraries, 
+//       legs: json.legs
+//     }
+//   }
+// }
+
+Home.getInitialProps = async () => {
+  const res = await fetch('http://localhost:3000/api/itineraries')
+  const { data } = await res.json()
+  
+  return { itineraries: data }
 }
 
 export default Home
