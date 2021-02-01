@@ -1,9 +1,14 @@
+import Link from 'next/link'
 import React, { useState } from 'react'
 import fetch from 'isomorphic-unfetch'
+
 import { makeStyles } from '@material-ui/core/styles'
 import Grid from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography'
 import ArrowForwardIcon from '@material-ui/icons/ArrowForward'
+import ButtonGroup from '@material-ui/core/ButtonGroup'
+import EditIcon from '@material-ui/icons/Edit'
+import DeleteIcon from '@material-ui/icons/Delete'
 
 import Time from './Time'
 
@@ -38,18 +43,12 @@ const useStyles = makeStyles((theme) => ({
   },
   error: {
     color: theme.palette.error.main 
-  }
+  },
+  buttonGroup: {
+    height: theme.spacing(2),
+    marginRight: theme.spacing(1.5)
+  },
 }))
-
-const getLeg = async (id) => {
-  try {
-    const res = await fetch(`http://localhost:3000/api/legs/${id}`)
-    const { data } = await res.json()
-    return { leg: data }
-  } catch (error) {
-    console.log(error)
-  }
-} 
 
 const Leg = (props) => {
   const classes = useStyles()
@@ -99,7 +98,7 @@ const Leg = (props) => {
       <Grid
         container
         justify="center"
-        alignItems="flex-end"
+        alignItems="center"
         direction="column" 
         className={classes.right}
       >
@@ -129,6 +128,18 @@ const Leg = (props) => {
           )
         }
       </Grid>
+      <ButtonGroup orientation="vertical" variant="text" className={classes.buttonGroup}>
+        <Link href={`legs/${props.leg._id}/edit`}>
+          <a className={classes.button}>
+            <EditIcon color="secondary" fontSize="small" />
+          </a>
+        </Link>
+        <Link href={`legs/${props.leg._id}/delete`}>
+          <a className={classes.button}>
+            <DeleteIcon color="error" fontSize="small" />
+          </a>
+        </Link>
+      </ButtonGroup>
     </Grid>
   )
 }

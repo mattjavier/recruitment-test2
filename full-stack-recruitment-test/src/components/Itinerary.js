@@ -99,12 +99,12 @@ const Itinerary = props => {
         <ButtonGroup variant="text" className={classes.buttonGroup}>
           <Link href={`itineraries/${props.itinerary._id}/edit`}>
             <a className={classes.button}>
-              <EditIcon />
+              <EditIcon color="primary" />
             </a>
           </Link>
           <Link href={`itineraries/${props.itinerary._id}/delete`}>
             <a className={classes.button}>
-              <DeleteIcon />
+              <DeleteIcon color="error" />
             </a>
           </Link>
         </ButtonGroup>
