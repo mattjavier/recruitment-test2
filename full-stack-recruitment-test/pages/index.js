@@ -1,12 +1,8 @@
-import Head from 'next/head'
 import fetch from 'isomorphic-unfetch'
 import styles from '../styles/Home.module.css'
 import { makeStyles } from '@material-ui/core/styles'
 import Grid from '@material-ui/core/Grid'
 
-import Header from '../src/components/Header'
-// import ItineraryForm from '../src/components/ItineraryForm'
-// import LegForm from '../src/components/LegForm'
 import Flights from '../src/components/Flights'
 
 import flights from '../public/flights.json'
@@ -35,13 +31,6 @@ const Home = props => {
       alignItems="center"
       className={classes.container}
     >
-      <Head>
-        <title>Skyscanner</title>
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-
-      {/* Header */}
-      <Header />
       <Grid
         container
         direction="column"
@@ -49,9 +38,6 @@ const Home = props => {
         alignItems="center"
         className={classes.main}
       >
-
-        {/* Form to Add Itinerary */}
-        {/* <ItineraryForm /> */}
         {/* List of Itineraries */}
         <Flights 
           itineraries={props.itineraries}

@@ -6,6 +6,7 @@ import Typography from '@material-ui/core/Typography'
 import FormControl from '@material-ui/core/FormControl'
 import FormHelperText from '@material-ui/core/FormHelperText'
 import Input from '@material-ui/core/Input'
+import Button from '@material-ui/core/Button'
 import InputLabel from '@material-ui/core/InputLabel'
 import Select from '@material-ui/core/Select'
 import MenuItem from '@material-ui/core/MenuItem'
@@ -22,6 +23,10 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(1),
     padding: 0,
   },
+  button: {
+    width: '15%',
+    margin: theme.spacing(1, 0)
+  },
   formText: {
     color: theme.palette.primary.main
   },
@@ -29,12 +34,6 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(3),
     width: '100%'
   },
-  root: {
-    '& > *': {
-      margin: theme.spacing(1),
-      width: '25ch',
-    },
-  }
 }))
 
 const Flights = props => {
@@ -44,38 +43,55 @@ const Flights = props => {
   const router = useRouter()
 
   let agentChoices = props.itineraries.map(itinerary => itinerary.agent)
-  
-  const [agentState, setAgents] = useState([])
-  const [selectedState, setSelected] = useState({
-    selected: []
-  })
-  const [itineraryState, setItineraryState] = useState({
-    totalPrice: '',
-    avgPrice: ''
-  })
-  
-  const getSelection = () => {
-    let selected = props.itineraries.filter(itinerary => itinerary.agent === agentState)
-    console.log(selected)
-    setSelected({...selectedState, selected })
-  }
 
+  const [flightsState, setFlightsState] = useState({
+    selected: [],
+    agent: '',
+    totalPrice: 0,
+    avgPrice: 0
+  })
+  
   useEffect(() => {
-    getSelection()
-
-    let totalPrice = 0
-    for (let i = 0; i < selectedState.selected.length; i++) {
-      totalPrice += selectedState.selected[i].price
+    
+    let selected
+    if (flightsState.agent !== '') {
+      selected = props.itineraries.filter(itinerary => itinerary.agent === flightsState.agent)
+    } else {
+      selected = props.itineraries 
     }
 
-    let avgPrice = totalPrice / selectedState.selected.length
+    let totalPrice = 0
+    for (let i = 0; i < flightsState.selected.length; i++) {
+      totalPrice += flightsState.selected[i].price
+    }
 
-    setItineraryState({ ...itineraryState, totalPrice, avgPrice })
-    router.push('/')
+    let avgPrice = totalPrice / flightsState.selected.length
+    setFlightsState({ ...flightsState, selected, totalPrice, avgPrice })
+    
   }, [])
   
-  const handleAgentChange = (event) => {
-    setAgents(event.target.value)
+  const handleAgentChange = event => {
+    setFlightsState({ ...flightsState, [event.target.name]: event.target.value })
+  }
+
+  const handleFilter = event => {
+    event.preventDefault()
+    if (flightsState.agent !== '') {
+      setFlightsState({ ...flightsState, selected: props.itineraries.filter(itinerary => itinerary.agent === flightsState.agent) })
+    } else {
+      setFlightsState({ ...flightsState, selected: props.itineraries })
+    }
+
+    let totalPrice = 0
+    for (let i = 0; i < flightsState.selected.length; i++) {
+      totalPrice += flightsState.selected[i].price
+    }
+
+    let avgPrice = totalPrice / flightsState.selected.length
+    setFlightsState({ ...flightsState, totalPrice, avgPrice })
+    
+    // console.log(flightsState)
+    
   }
 
 
@@ -90,16 +106,16 @@ const Flights = props => {
       <FormControl className={classes.formControl}>
         <InputLabel id="agent-label" className={classes.formText}>Agent</InputLabel>
         <Select
-          name="agents"
           id="select"
           labelId="agent-label"
-          value={agentState}
+          value={flightsState.agent}
           onChange={handleAgentChange}
-          input={<Input />}
+          name="agent"
+          className={classes.formText}
         >
           <MenuItem
-            key="default"
-            value="default"
+            key="all"
+            value="all"
             className={classes.formText}
           >
             Agent
@@ -119,6 +135,14 @@ const Flights = props => {
           }
         </Select>
         <FormHelperText className={classes.formText}>Filter by agent</FormHelperText>
+        <Button 
+          variant="contained"
+          color="primary"
+          className={classes.button}
+          onClick={handleFilter}
+        >
+          Filter
+        </Button>
       </FormControl>
       <Grid
         className={classes.display}
@@ -128,7 +152,7 @@ const Flights = props => {
         alignItems="center"
       >
         {
-          selectedState.selected.map(itinerary => {
+          props.itineraries.map(itinerary => {
             return (
               <Itinerary 
                 key={itinerary._id}
@@ -150,14 +174,14 @@ const Flights = props => {
           component="h5"
           color="primary"
         >
-          Total Itinerary Price: &pound;{itineraryState.totalPrice}
+          Total Itinerary Price: &pound;{flightsState.totalPrice}
         </Typography>
         <Typography
           variant="h5"
           component="h5"
           color="primary"
         >
-          Average Itinerary Price: &pound;{itineraryState.avgPrice}
+          Average Itinerary Price: &pound;{flightsState.avgPrice}
         </Typography>
       </Grid>
     </Grid>

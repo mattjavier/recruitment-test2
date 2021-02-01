@@ -15,7 +15,7 @@ const Time = props => {
 
   return (
     <Grid
-      conatiner
+      container
       direction="column"
       justify="center" 
       className={classes.root}
