@@ -34,6 +34,12 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(3),
     width: '100%'
   },
+  bottom: {
+    padding: theme.spacing(0, 3)
+  },
+  prices: {
+    color: theme.palette.success.main
+  }
 }))
 
 const Flights = props => {
@@ -165,23 +171,21 @@ const Flights = props => {
       </Grid>
       <Grid
         container
-        direction="column"
-        justify="center"
+        justify="space-between"
         alignItems="center"
+        className={classes.bottom}
       >
         <Typography
-          variant="h5"
-          component="h5"
+          variant="button"
           color="primary"
         >
-          Total Itinerary Price: &pound;{flightsState.totalPrice}
+          Total Price: <span className={classes.prices}>&pound;{flightsState.totalPrice}</span>
         </Typography>
         <Typography
-          variant="h5"
-          component="h5"
+          variant="button"
           color="primary"
         >
-          Average Itinerary Price: &pound;{flightsState.avgPrice}
+          Average Price: <span className={classes.prices}>&pound;{flightsState.avgPrice}</span>
         </Typography>
       </Grid>
     </Grid>
