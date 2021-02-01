@@ -31,7 +31,7 @@ const useStyles = makeStyles((theme) => ({
     paddingRight: theme.spacing(5)
   },
   right: {
-    marginRight: theme.spacing(2.5)
+    marginRight: theme.spacing(0)
   },
   success: {
     color: theme.palette.success.main

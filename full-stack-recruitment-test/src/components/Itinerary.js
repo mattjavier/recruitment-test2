@@ -1,8 +1,13 @@
+import Link from 'next/link'
 import React from 'react'
+
 import { makeStyles } from '@material-ui/core/styles'
 import Card from '@material-ui/core/Card'
 import Grid from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography'
+import ButtonGroup from '@material-ui/core/ButtonGroup'
+import EditIcon from '@material-ui/icons/Edit'
+import DeleteIcon from '@material-ui/icons/Delete'
 
 import Leg from './Leg'
 
@@ -35,6 +40,14 @@ const useStyles = makeStyles((theme) => ({
     "& span": {
       color: theme.palette.text.secondary
     }
+  },
+  buttonGroup: {
+    height: theme.spacing(5),
+    padding: theme.spacing(1, 0)
+  },
+  button: {
+    color: theme.palette.secondary.main,
+    padding: theme.spacing(0, 1)
   }
 }))
 
@@ -58,28 +71,43 @@ const Itinerary = props => {
         />
       </Grid>
       <Grid 
-        item
-        lg={12}
+        container
+        justify="space-between"
+        alignItems="center"
       >
-        {/* Flight Price */}
-        <Typography
-          color="primary" 
-          className={classes.price}
-        >
-          &pound;{props.itinerary.price}
-        </Typography>
+        <Grid item>
+          {/* Flight Price */}
+          <Typography
+            color="primary" 
+            className={classes.price}
+          >
+            &pound;{props.itinerary.price}
+          </Typography>
 
-        {/* Flight Agent and Rating */}
-        <Typography 
-          component="p"
-          color="textPrimary"
-          className={classes.agent}
-        >
-          {props.itinerary.agent}
-          <span>
-            &nbsp;({formatString(props.itinerary.agentRating)})
-          </span>
-        </Typography>
+          {/* Flight Agent and Rating */}
+          <Typography 
+            component="p"
+            color="textPrimary"
+            className={classes.agent}
+          >
+            {props.itinerary.agent}
+            <span>
+              &nbsp;({formatString(props.itinerary.agentRating)})
+            </span>
+          </Typography>
+        </Grid>
+        <ButtonGroup variant="text" className={classes.buttonGroup}>
+          <Link href={`itineraries/${props.itinerary._id}/edit`}>
+            <a className={classes.button}>
+              <EditIcon />
+            </a>
+          </Link>
+          <Link href={`itineraries/${props.itinerary._id}/delete`}>
+            <a className={classes.button}>
+              <DeleteIcon />
+            </a>
+          </Link>
+        </ButtonGroup>
       </Grid>
     </Card>
   )
