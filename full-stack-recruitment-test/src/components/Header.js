@@ -4,6 +4,8 @@ import { makeStyles } from '@material-ui/core/styles'
 
 import Paper from '@material-ui/core/Paper'
 import Grid from '@material-ui/core/Grid'
+import AddIcon from '@material-ui/icons/Add'
+
 
 const useStyles = makeStyles((theme) => ({
   header: {
@@ -21,9 +23,8 @@ const useStyles = makeStyles((theme) => ({
   link: {
     padding: theme.spacing(0, 1),
     color: theme.palette.primary.main,
-    '& hover': {
-      color: theme.palette.secondary.main
-    }
+    display: 'flex',
+    alignItems: 'center'
   }
 }))
 
@@ -48,10 +49,16 @@ const Header = () => {
         justify="flex-end"
       >
         <Link href="/leg">
-          <a className={classes.link}>Add Leg</a>
+          <a className={classes.link}>
+            Leg
+            <AddIcon fontSize="small"/>
+          </a>
         </Link>
         <Link href="/itinerary">
-          <a className={classes.link}>Add Itinerary</a>
+          <a className={classes.link}>
+            Itinerary 
+            <AddIcon fontSize="small"/>
+          </a>
         </Link>
       </Grid>
     </Paper>
