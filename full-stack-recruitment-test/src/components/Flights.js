@@ -1,11 +1,10 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { useRouter } from 'next/router'
 import { makeStyles } from '@material-ui/core/styles'
 import Grid from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography'
 import FormControl from '@material-ui/core/FormControl'
 import FormHelperText from '@material-ui/core/FormHelperText'
-import Input from '@material-ui/core/Input'
 import Button from '@material-ui/core/Button'
 import InputLabel from '@material-ui/core/InputLabel'
 import Select from '@material-ui/core/Select'
@@ -51,30 +50,11 @@ const Flights = props => {
   let agentChoices = props.itineraries.map(itinerary => itinerary.agent)
 
   const [flightsState, setFlightsState] = useState({
-    selected: [],
+    selected: props.itineraries,
     agent: '',
-    totalPrice: 0,
-    avgPrice: 0
+    totalPrice: props.itineraries.map(itinerary => itinerary.price).reduce((sum, current) => sum + current, 0),
+    avgPrice: props.itineraries.map(itinerary => itinerary.price).reduce((sum, current) => sum + current, 0) / props.itineraries.length
   })
-  
-  useEffect(() => {
-    
-    let selected
-    if (flightsState.agent !== '') {
-      selected = props.itineraries.filter(itinerary => itinerary.agent === flightsState.agent)
-    } else {
-      selected = props.itineraries 
-    }
-
-    let totalPrice = 0
-    for (let i = 0; i < flightsState.selected.length; i++) {
-      totalPrice += flightsState.selected[i].price
-    }
-
-    let avgPrice = totalPrice / flightsState.selected.length
-    setFlightsState({ ...flightsState, selected, totalPrice, avgPrice })
-    
-  }, [])
   
   const handleAgentChange = event => {
     setFlightsState({ ...flightsState, [event.target.name]: event.target.value })
@@ -82,22 +62,26 @@ const Flights = props => {
 
   const handleFilter = event => {
     event.preventDefault()
-    if (flightsState.agent !== '') {
-      setFlightsState({ ...flightsState, selected: props.itineraries.filter(itinerary => itinerary.agent === flightsState.agent) })
+    
+    let selectedFlights = (
+      flightsState.agent === ('' || 'all') ? props.itineraries : (props.itineraries.filter(itinerary => itinerary.agent === flightsState.agent))
+    )
+
+    if (selectedFlights === []) {
+      setFlightsState({
+        selected: selectedFlights,
+        totalPrice: 0,
+        avgPrice: 0
+      })
     } else {
-      setFlightsState({ ...flightsState, selected: props.itineraries })
+      setFlightsState({
+        selected: selectedFlights,
+        totalPrice: selectedFlights.map(itinerary => itinerary.price).reduce((sum, current) => sum + current, 0),
+        avgPrice: selectedFlights.map(itinerary => itinerary.price).reduce((sum, current) => sum + current, 0) / selectedFlights.length,
+      })
     }
-
-    let totalPrice = 0
-    for (let i = 0; i < flightsState.selected.length; i++) {
-      totalPrice += flightsState.selected[i].price
-    }
-
-    let avgPrice = totalPrice / flightsState.selected.length
-    setFlightsState({ ...flightsState, totalPrice, avgPrice })
     
-    // console.log(flightsState)
-    
+    // console.log(flightsState)    
   }
 
 
@@ -158,7 +142,7 @@ const Flights = props => {
         alignItems="center"
       >
         {
-          props.itineraries.map(itinerary => {
+          flightsState.selected.map(itinerary => {
             return (
               <Itinerary 
                 key={itinerary._id}
