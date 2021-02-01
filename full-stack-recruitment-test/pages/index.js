@@ -5,8 +5,6 @@ import Grid from '@material-ui/core/Grid'
 
 import Flights from '../src/components/Flights'
 
-import flights from '../public/flights.json'
-
 const useStyles = makeStyles((theme) => ({
   container: {
     flexGrow: 1,
