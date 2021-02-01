@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import { useRouter } from 'next/router'
 
 import { makeStyles } from '@material-ui/core/styles'
 import Grid from '@material-ui/core/Grid'
@@ -62,7 +61,7 @@ const Flights = props => {
 
   const handleFilter = event => {
     event.preventDefault()
-    
+
     let selectedFlights = (
       flightsState.agent === ('' || 'all') ? props.itineraries : (props.itineraries.filter(itinerary => itinerary.agent === flightsState.agent))
     )
