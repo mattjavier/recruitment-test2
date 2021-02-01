@@ -1,12 +1,12 @@
 import React, { useState } from 'react'
 import { useRouter } from 'next/router'
+
 import { makeStyles } from '@material-ui/core/styles'
 import Grid from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography'
 import FormControl from '@material-ui/core/FormControl'
 import FormHelperText from '@material-ui/core/FormHelperText'
 import Button from '@material-ui/core/Button'
-import InputLabel from '@material-ui/core/InputLabel'
 import Select from '@material-ui/core/Select'
 import MenuItem from '@material-ui/core/MenuItem'
 
@@ -16,14 +16,16 @@ const useStyles = makeStyles((theme) => ({
   container: {
     backgroundColor: theme.palette.background.default,
   },
+  form: {
+    width: '100%',
+    padding: theme.spacing(0, 3)
+  },
   formControl: {
-    minWidth: 120,
-    width: '90%',
-    margin: theme.spacing(1),
-    padding: 0,
+    width: '50%',
+    padding: theme.spacing(3, 0),
   },
   button: {
-    width: '15%',
+    width: '25%',
     margin: theme.spacing(1, 0)
   },
   formText: {
@@ -44,8 +46,6 @@ const useStyles = makeStyles((theme) => ({
 const Flights = props => {
 
   const classes = useStyles()
-
-  const router = useRouter()
 
   let agentChoices = props.itineraries.map(itinerary => itinerary.agent)
 
@@ -69,19 +69,19 @@ const Flights = props => {
 
     if (selectedFlights === []) {
       setFlightsState({
+        ...flightsState,
         selected: selectedFlights,
         totalPrice: 0,
         avgPrice: 0
       })
     } else {
       setFlightsState({
+        ...flightsState,
         selected: selectedFlights,
         totalPrice: selectedFlights.map(itinerary => itinerary.price).reduce((sum, current) => sum + current, 0),
         avgPrice: selectedFlights.map(itinerary => itinerary.price).reduce((sum, current) => sum + current, 0) / selectedFlights.length,
       })
     }
-    
-    // console.log(flightsState)    
   }
 
 
@@ -93,47 +93,47 @@ const Flights = props => {
       alignItems="center"
       className={classes.container}
     >
-      <FormControl className={classes.formControl}>
-        <InputLabel id="agent-label" className={classes.formText}>Agent</InputLabel>
-        <Select
-          id="select"
-          labelId="agent-label"
-          value={flightsState.agent}
-          onChange={handleAgentChange}
-          name="agent"
-          className={classes.formText}
-        >
-          <MenuItem
-            key="all"
-            value="all"
+      <Grid
+        container
+        justify="space-between"
+        alignItems="center"
+        className={classes.form}
+      >
+        <FormControl className={classes.formControl}>
+          <Select
+            id="select"
+            labelId="agent-label"
+            value={flightsState.agent}
+            onChange={handleAgentChange}
+            name="agent"
             className={classes.formText}
           >
-            Agent
-          </MenuItem>
-          {
-            agentChoices.map(agent => {
-              return (
-                <MenuItem
-                  key={agent}
-                  value={agent}
-                  className={classes.formText}
-                >
-                  {agent}
-                </MenuItem>
-              )
-            })
-          }
-        </Select>
-        <FormHelperText className={classes.formText}>Filter by agent</FormHelperText>
+            <MenuItem key="all" value="all" className={classes.formText}>All</MenuItem>
+            {
+              agentChoices.map(agent => {
+                return (
+                  <MenuItem
+                    key={agent}
+                    value={agent}
+                    className={classes.formText}
+                  >
+                    {agent}
+                  </MenuItem>
+                )
+              })
+            }
+          </Select>
+          <FormHelperText className={classes.formText}>Filter by Flight Agent</FormHelperText>
+        </FormControl>
         <Button 
-          variant="contained"
+          variant="outlined"
           color="primary"
           className={classes.button}
           onClick={handleFilter}
         >
           Filter
         </Button>
-      </FormControl>
+      </Grid>
       <Grid
         className={classes.display}
         container
@@ -159,16 +159,10 @@ const Flights = props => {
         alignItems="center"
         className={classes.bottom}
       >
-        <Typography
-          variant="button"
-          color="primary"
-        >
+        <Typography variant="button" color="primary">
           Total Price: <span className={classes.prices}>&pound;{flightsState.totalPrice}</span>
         </Typography>
-        <Typography
-          variant="button"
-          color="primary"
-        >
+        <Typography variant="button" color="primary">
           Average Price: <span className={classes.prices}>&pound;{flightsState.avgPrice}</span>
         </Typography>
       </Grid>
