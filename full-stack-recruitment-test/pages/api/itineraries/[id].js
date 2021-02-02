@@ -9,7 +9,7 @@ export default async (req, res) => {
     method
   } = req
 
-  switch(method) {
+  switch (method) {
     case 'GET':
       try {
         const itinerary = await Itinerary.findById(id)
