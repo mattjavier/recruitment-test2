@@ -43,18 +43,18 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 const Flights = props => {
-
+  
   const classes = useStyles()
 
   let agentChoices = Array.from(new Set(props.itineraries.map(itinerary => itinerary.agent)))
-
+  
   const [flightsState, setFlightsState] = useState({
     selected: props.itineraries,
     agent: 'all',
     totalPrice: props.itineraries.map(itinerary => itinerary.price).reduce((sum, current) => sum + current, 0).toFixed(2),
     avgPrice: (props.itineraries.map(itinerary => itinerary.price).reduce((sum, current) => sum + current, 0) / props.itineraries.length).toFixed(2)
   })
-  
+
   const handleAgentChange = event => {
     setFlightsState({ ...flightsState, [event.target.name]: event.target.value })
   }
