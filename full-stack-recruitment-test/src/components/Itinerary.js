@@ -64,11 +64,13 @@ const Itinerary = props => {
         {/* Leg 1 */}
         <Leg 
           leg={props.legs.find(leg => leg._id === props.itinerary.legs[0])}
+          access={true}
         />
         <hr/>
         {/* Leg 2 */}
         <Leg
           leg={props.legs.find(leg => leg._id === props.itinerary.legs[1])}
+          access={true}
         />
       </Grid>
       <Grid 

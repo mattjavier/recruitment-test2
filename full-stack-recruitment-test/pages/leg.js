@@ -93,7 +93,6 @@ const NewLeg = props => {
 
   useEffect(() => {
     if (submitting) {
-      console.log(errorState)
       if (errorState === false) {
         addLeg()
       } else {
@@ -132,24 +131,25 @@ const NewLeg = props => {
   
   const validation = () => {
 
+    let errors = false
     if (!formState.departureAirport ||!formState.arrivalAirport
     || !formState.departureTime || !formState.arrivalTime
-    || (!formState.stops || formState.stops === 'NaN') || !formState.airlineName
+    || (formState.stops < 0 || formState.stops === 'NaN' || formState.stops === '') || !formState.airlineName
     || !formState.airlineId || !formState.durationMins) {
-      setErrorState(true)
-
+      errors = true
       handleSnack()
     }
 
-    setErrorState(false)
+    return errors
   }
 
   const handleSubmit = event => {
     event.preventDefault()
     
-    let stops = parseInt(formState.stops)
-    let airlineId = props.airlines.filter(airline => formState.airlineName === airline.name).map(airline => airline.airlineId)[0]
-    let durationMins = getDuration(formState.departureTime, formState.arrivalTime)
+    const stops = parseInt(formState.stops)
+    console.log(formState)
+    const airlineId = props.airlines.filter(airline => formState.airlineName === airline.name).map(airline => airline.airlineId)[0]
+    const durationMins = getDuration(formState.departureTime, formState.arrivalTime)
     setFormState({
       ...formState,
       stops,
@@ -157,7 +157,9 @@ const NewLeg = props => {
       durationMins
     })
     
-    validation()
+    const hasErrors = validation()
+    setErrorState(hasErrors)
+   
     setSubmitting(true)
     
   }
@@ -291,15 +293,15 @@ const NewLeg = props => {
               className={classes.input} 
               onChange={handleInputChange}
             >
-            {
-              props.airlines.map(airline => {
-                return (
-                  <MenuItem key={airline._id} value={airline.name} className={classes.input}>
-                    {airline.name}
-                  </MenuItem>
-                )
-              })
-            }
+              {
+                props.airlines.map(airline => {
+                  return (
+                    <MenuItem key={airline._id} value={airline.name} className={classes.input}>
+                      {airline.name}
+                    </MenuItem>
+                  )
+                })
+              }
             </Select>
           </FormControl>
         </Grid>

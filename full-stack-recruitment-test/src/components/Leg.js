@@ -1,6 +1,5 @@
 import Link from 'next/link'
-import React, { useState } from 'react'
-import fetch from 'isomorphic-unfetch'
+import React from 'react'
 
 import { makeStyles } from '@material-ui/core/styles'
 import Grid from '@material-ui/core/Grid'
@@ -128,28 +127,24 @@ const Leg = (props) => {
           )
         }
       </Grid>
-      <ButtonGroup orientation="vertical" variant="text" className={classes.buttonGroup}>
-        <Link href={`legs/${props.leg._id}/edit`}>
-          <a className={classes.button}>
-            <EditIcon color="secondary" fontSize="small" />
-          </a>
-        </Link>
-        <Link href={`legs/${props.leg._id}/delete`}>
-          <a className={classes.button}>
-            <DeleteIcon color="error" fontSize="small" />
-          </a>
-        </Link>
-      </ButtonGroup>
+      {
+        props.access === true ? (
+          <ButtonGroup orientation="vertical" variant="text" className={classes.buttonGroup}>
+            <Link href={`legs/${props.leg._id}/edit`}>
+              <a className={classes.button}>
+                <EditIcon color="secondary" fontSize="small" />
+              </a>
+            </Link>
+            <Link href={`legs/${props.leg._id}/delete`}>
+              <a className={classes.button}>
+                <DeleteIcon color="error" fontSize="small" />
+              </a>
+            </Link>
+          </ButtonGroup>
+        ) : null
+      }
     </Grid>
   )
 }
-
-// Leg.getInitialProps = async () => {
-  
-//   const res = await fetch(`http://localhost:3000/api/legs`)
-//   const { data } = await res.json()
-  
-//   return { legs: data }
-// }
 
 export default Leg
