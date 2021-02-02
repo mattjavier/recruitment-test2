@@ -4,6 +4,7 @@ import React from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import Card from '@material-ui/core/Card'
 import Grid from '@material-ui/core/Grid'
+import Divider from '@material-ui/core/Divider'
 import Typography from '@material-ui/core/Typography'
 import ButtonGroup from '@material-ui/core/ButtonGroup'
 import EditIcon from '@material-ui/icons/Edit'
@@ -65,6 +66,7 @@ const Itinerary = props => {
         <Leg 
           leg={props.legs.find(leg => leg._id === props.itinerary.legs[0])}
         />
+        <hr/>
         {/* Leg 2 */}
         <Leg
           leg={props.legs.find(leg => leg._id === props.itinerary.legs[1])}

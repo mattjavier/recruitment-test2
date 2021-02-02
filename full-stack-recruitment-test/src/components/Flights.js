@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 
 import { makeStyles } from '@material-ui/core/styles'
 import Grid from '@material-ui/core/Grid'
@@ -50,7 +50,7 @@ const Flights = props => {
 
   const [flightsState, setFlightsState] = useState({
     selected: props.itineraries,
-    agent: '',
+    agent: 'all',
     totalPrice: props.itineraries.map(itinerary => itinerary.price).reduce((sum, current) => sum + current, 0),
     avgPrice: props.itineraries.map(itinerary => itinerary.price).reduce((sum, current) => sum + current, 0) / props.itineraries.length
   })
