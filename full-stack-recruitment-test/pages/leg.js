@@ -18,6 +18,7 @@ import TextField from '@material-ui/core/TextField'
 import Grid from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography'
 import InputAdornment from '@material-ui/core/InputAdornment'
+import CircularProgress from '@material-ui/core/CircularProgress'
 import FlightLandIcon from '@material-ui/icons/FlightLand'
 import FlightTakeoffIcon from '@material-ui/icons/FlightTakeoff'
 import StopIcon from '@material-ui/icons/Stop'
@@ -68,6 +69,10 @@ const useStyles = makeStyles((theme) => ({
   }
 }))
 
+const Alert = (props) => {
+  return <MuiAlert elevation={6} variant="filled" {...props} />
+}
+
 const NewLeg = props => {
 
   const classes = useStyles()
@@ -84,13 +89,22 @@ const NewLeg = props => {
   })
 
   const [submitting, setSubmitting] = useState(false)
-  const [errorState, setErrorState] = useState({})
+  const [errorState, setErrorState] = useState(false)
+  const [open, setOpen] = useState(false)
   const router = useRouter()
 
-  const validation = () => {
-    let err = {}
-  }
+  useEffect(() => {
+    if (submitting) {
+      console.log(errorState)
+      if (errorState === false) {
+        addLeg()
+      } else {
+        setSubmitting(false)
+      }
+    }
+  }, [errorState])
 
+  
   const addLeg = async () => {
     try {
       const res = await fetch('http://localhost:3000/api/legs', {
@@ -110,10 +124,31 @@ const NewLeg = props => {
   const handleInputChange = event => {
     setFormState({ ...formState, [event.target.name]: event.target.value })
   }
+  
+  const handleSnack = () => {
+    setOpen(true)
+  }
+  const handleSnackClose = () => {
+    setOpen(false)
+  }
+  
+  const validation = () => {
+
+    if (!formState.departureAirport ||!formState.arrivalAirport
+    || !formState.departureTime || !formState.arrivalTime
+    || (!formState.stops || formState.stops === 'NaN') || !formState.airlineName
+    || !formState.airlineId || !formState.durationMins) {
+      setErrorState(true)
+
+      handleSnack()
+    }
+
+    setErrorState(false)
+  }
 
   const handleSubmit = event => {
     event.preventDefault()
-
+    
     let stops = parseInt(formState.stops)
     let airlineId = props.airlines.filter(airline => formState.airlineName === airline.name).map(airline => airline.airlineId)[0]
     let durationMins = getDuration(formState.departureTime, formState.arrivalTime)
@@ -123,12 +158,12 @@ const NewLeg = props => {
       airlineId,
       durationMins
     })
-
-    // console.log(formState)
-    addLeg()
-    // setSubmitting(true)
+    
+    validation()
+    setSubmitting(true)
+    
   }
-
+  
   return (
     <Grid
       container
@@ -273,6 +308,16 @@ const NewLeg = props => {
         
         <Button variant="contained" type="submit" color="primary" className={classes.button}>Submit</Button>
       </form>
+   
+      <Snackbar
+        open={open} 
+        autoHideDuration={3000}
+        onClose={handleSnackClose}
+      >
+        <Alert onClose={handleSnackClose} severity="error">
+          Please fill out all fields
+        </Alert>
+      </Snackbar>
     </Grid>
   )
 }
