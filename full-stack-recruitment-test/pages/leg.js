@@ -87,6 +87,10 @@ const NewLeg = props => {
   const [errorState, setErrorState] = useState({})
   const router = useRouter()
 
+  const validation = () => {
+    let err = {}
+  }
+
   const addLeg = async () => {
     try {
       const res = await fetch('http://localhost:3000/api/legs', {
