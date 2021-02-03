@@ -5,6 +5,8 @@ import Grid from '@material-ui/core/Grid'
 
 import Flights from '../src/components/Flights'
 
+const url = process.env.baseUrl || 'http://localhost:3000/'
+
 const useStyles = makeStyles((theme) => ({
   container: {
     flexGrow: 1,
@@ -58,10 +60,10 @@ const Home = props => {
 }
 
 Home.getInitialProps = async () => {
-  const it_res = await fetch('http://localhost:3000/api/itineraries')
+  const it_res = await fetch(`${url}/api/itineraries`)
   const itineraries = await it_res.json()
 
-  const lg_res = await fetch('http://localhost:3000/api/legs')
+  const lg_res = await fetch(`${url}/api/legs`)
   const legs = await lg_res.json()
   
   return { itineraries: itineraries.data, legs: legs.data }

@@ -23,6 +23,8 @@ import FormHelperText from '@material-ui/core/FormHelperText'
 
 import Leg from '../../../src/components/Leg'
 
+const url = process.env.baseUrl || 'http://localhost:3000/'
+
 const useStyles = makeStyles((theme) => ({
   title: {
     padding: theme.spacing(4)
@@ -108,7 +110,7 @@ const EditItinerary = props => {
 
   const updateItinerary = async () => {
     try {
-      const res = await fetch(`http://localhost:3000/api/itineraries/${router.query.id}`, {
+      const res = await fetch(`${url}/api/itineraries/${router.query.id}`, {
         method: 'PUT',
         headers: {
           'Accept': 'application/json',
@@ -259,13 +261,13 @@ const EditItinerary = props => {
 }
 
 EditItinerary.getInitialProps = async ({ query: { id } }) => {
-  const lg_res = await fetch('http://localhost:3000/api/legs')
+  const lg_res = await fetch(`${url}/api/legs`)
   const legs = await lg_res.json()
 
-  const ag_res = await fetch('http://localhost:3000/api/agents')
+  const ag_res = await fetch(`${url}/api/agents`)
   const agents = await ag_res.json()
 
-  const it_res = await fetch(`http://localhost:3000/api/itineraries/${id}`)
+  const it_res = await fetch(`${url}/api/itineraries/${id}`)
   const itineraries = await it_res.json()
   return { itineraries: itineraries.data, legs: legs.data, agents: agents.data }
 }

@@ -20,6 +20,8 @@ import FlightLandIcon from '@material-ui/icons/FlightLand'
 import FlightTakeoffIcon from '@material-ui/icons/FlightTakeoff'
 import StopIcon from '@material-ui/icons/Stop'
 
+const url = process.env.baseUrl || 'http://localhost:3000/'
+
 const getDuration = (dept, arrv) => {
   // format is 'YYYY-MM-DDTHH:MM'
   let ms = moment(arrv).diff(moment(dept), 'minutes')
@@ -101,7 +103,7 @@ const NewLeg = props => {
   
   const addLeg = async () => {
     try {
-      const res = await fetch('http://localhost:3000/api/legs', {
+      const res = await fetch(`${url}/api/legs`, {
         method: 'POST',
         headers: {
           'Accept': 'application/json',
@@ -340,7 +342,7 @@ const NewLeg = props => {
 }
 
 NewLeg.getInitialProps = async () => {
-  const al_res = await fetch('http://localhost:3000/api/airlines')
+  const al_res = await fetch(`${url}/api/airlines`)
   const airlines = await al_res.json()
   
   return { airlines: airlines.data }
