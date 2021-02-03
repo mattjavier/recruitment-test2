@@ -81,7 +81,7 @@ const Alert = (props) => {
 const EditItinerary = props => {
 
   const classes = useStyles()
-  console.log(props)
+  
   const [formState, setFormState] = useState({
     legs: props.itineraries.legs,
     price: props.itineraries.price, 
@@ -89,8 +89,10 @@ const EditItinerary = props => {
     agentRating: props.itineraries.agentRating
   })
 
-
   const legKeys = props.legs.map(leg => leg._id).reduce((accumulator, curr) => (accumulator[curr]=false, accumulator),{})
+  
+  legKeys[props.itineraries.legs[0]] = true
+  legKeys[props.itineraries.legs[1]] = true
 
   const [checked, setChecked] = useState(legKeys)
   const [submitting, setSubmitting] = useState(false)
