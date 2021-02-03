@@ -99,18 +99,22 @@ const Itinerary = props => {
             </span>
           </Typography>
         </Grid>
-        <ButtonGroup variant="text" className={classes.buttonGroup}>
-          <Link href={`itineraries/${props.itinerary._id}/edit`}>
-            <a className={classes.button}>
-              <EditIcon color="primary" />
-            </a>
-          </Link>
-          <Link href={`itineraries/${props.itinerary._id}/delete`}>
-            <a className={classes.button}>
-              <DeleteIcon color="error" />
-            </a>
-          </Link>
-        </ButtonGroup>
+        {
+          props.access ? (
+            <ButtonGroup variant="text" className={classes.buttonGroup}>
+              <Link href={`itineraries/${props.itinerary._id}/edit`}>
+                <a className={classes.button}>
+                  <EditIcon color="primary" />
+                </a>
+              </Link>
+              <Link href={`itineraries/${props.itinerary._id}/delete`}>
+                <a className={classes.button}>
+                  <DeleteIcon color="error" />
+                </a>
+              </Link>
+            </ButtonGroup>
+          ) : null
+        }
       </Grid>
     </Card>
   )

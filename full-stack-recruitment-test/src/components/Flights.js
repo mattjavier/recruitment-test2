@@ -147,6 +147,7 @@ const Flights = props => {
                 key={itinerary._id}
                 itinerary={itinerary}
                 legs={props.legs}
+                access={true}
               />
             )
           })
