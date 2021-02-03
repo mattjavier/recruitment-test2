@@ -12,6 +12,8 @@ import DeleteIcon from '@material-ui/icons/Delete'
 
 import Leg from '../../../src/components/Leg'
 
+const url = process.env.NEXT_PUBLIC_VERCEL_URL || 'http://localhost:3000'
+
 const useStyles = makeStyles((theme) => ({
   card: {
     margin: theme.spacing(6),
@@ -46,12 +48,12 @@ const DeleteLeg = props => {
       let ids = references.map(reference => reference._id)
       
       for (let i = 0; i < ids.length; i++) {
-        const deletedIt = await fetch(`/api/itineraries/${ids[i]}`, {
+        const deletedIt = await fetch(`${url}/api/itineraries/${ids[i]}`, {
           method: 'DELETE'
         })
       }
 
-      const deletedLeg = await fetch(`/api/legs/${router.query.id}`, {
+      const deletedLeg = await fetch(`${url}/api/legs/${router.query.id}`, {
         method: 'DELETE',
       })
 
@@ -89,10 +91,10 @@ const DeleteLeg = props => {
 }
 
 DeleteLeg.getInitialProps = async ({ query: { id }}) => {
-  const res = await fetch(`/api/legs/${id}`)
+  const res = await fetch(`${url}/api/legs/${id}`)
   const leg = await res.json()
 
-  const it_res = await fetch(`/api/itineraries`)
+  const it_res = await fetch(`${url}/api/itineraries`)
   const itineraries = await it_res.json()
  
   return { leg: leg.data, itineraries: itineraries.data }

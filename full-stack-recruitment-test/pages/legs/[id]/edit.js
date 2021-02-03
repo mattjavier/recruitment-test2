@@ -19,6 +19,8 @@ import FlightLandIcon from '@material-ui/icons/FlightLand'
 import FlightTakeoffIcon from '@material-ui/icons/FlightTakeoff'
 import StopIcon from '@material-ui/icons/Stop'
 
+const url = process.env.NEXT_PUBLIC_VERCEL_URL || 'http://localhost:3000'
+
 const getDuration = (dept, arrv) => {
   // format is 'YYYY-MM-DDTHH:MM'
   let ms = moment(arrv).diff(moment(dept), 'minutes')
@@ -100,7 +102,7 @@ const EditLeg = props => {
   
   const updateLeg = async () => {
     try {
-      const res = await fetch(`/api/legs/${router.query.id}`, {
+      const res = await fetch(`${url}/api/legs/${router.query.id}`, {
         method: 'PUT',
         headers: {
           'Accept': 'application/json',
@@ -338,10 +340,10 @@ const EditLeg = props => {
 }
 
 EditLeg.getInitialProps = async ({ query: { id } }) => {
-  const al_res = await fetch(`/api/airlines`)
+  const al_res = await fetch(`${url}/api/airlines`)
   const airlines = await al_res.json()
   
-  const lg_res = await fetch(`/api/legs/${id}`)
+  const lg_res = await fetch(`${url}/api/legs/${id}`)
   const leg = await lg_res.json()
   return { leg: leg.data, airlines: airlines.data }
 }

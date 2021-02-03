@@ -22,6 +22,8 @@ import FormHelperText from '@material-ui/core/FormHelperText'
 
 import Leg from '../src/components/Leg'
 
+const url = process.env.NEXT_PUBLIC_VERCEL_URL || 'http://localhost:3000'
+
 const useStyles = makeStyles((theme) => ({
   title: {
     padding: theme.spacing(4)
@@ -105,7 +107,7 @@ const NewItinerary = props => {
 
   const addItinerary = async () => {
     try {
-      const res = await fetch(`/api/itineraries`, {
+      const res = await fetch(`${url}/api/itineraries`, {
         method: 'POST',
         headers: {
           'Accept': 'application/json',
@@ -256,10 +258,10 @@ const NewItinerary = props => {
 }
 
 NewItinerary.getInitialProps = async () => {
-  const lg_res = await fetch(`/api/legs`)
+  const lg_res = await fetch(`${url}/api/legs`)
   const legs = await lg_res.json()
 
-  const ag_res = await fetch(`/api/agents`)
+  const ag_res = await fetch(`${url}/api/agents`)
   const agents = await ag_res.json()
 
   return { legs: legs.data, agents: agents.data }
