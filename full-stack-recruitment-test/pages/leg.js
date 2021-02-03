@@ -20,7 +20,7 @@ import FlightLandIcon from '@material-ui/icons/FlightLand'
 import FlightTakeoffIcon from '@material-ui/icons/FlightTakeoff'
 import StopIcon from '@material-ui/icons/Stop'
 
-const url = process.env.baseUrl || 'http://localhost:3000/'
+const url = 'http://localhost:3000/'
 
 const getDuration = (dept, arrv) => {
   // format is 'YYYY-MM-DDTHH:MM'

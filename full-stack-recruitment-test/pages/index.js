@@ -5,7 +5,7 @@ import Grid from '@material-ui/core/Grid'
 
 import Flights from '../src/components/Flights'
 
-const url = process.env.baseUrl || 'http://localhost:3000/'
+const url = 'http://localhost:3000/'
 
 const useStyles = makeStyles((theme) => ({
   container: {
