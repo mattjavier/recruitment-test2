@@ -2,7 +2,6 @@ import Link from 'next/link'
 import { useRouter } from 'next/router'
 
 import { useState, useEffect } from 'react'
-import fetch from 'isomorphic-unfetch'
 import moment from 'moment'
 
 import { makeStyles } from '@material-ui/core/styles'
@@ -19,8 +18,6 @@ import InputAdornment from '@material-ui/core/InputAdornment'
 import FlightLandIcon from '@material-ui/icons/FlightLand'
 import FlightTakeoffIcon from '@material-ui/icons/FlightTakeoff'
 import StopIcon from '@material-ui/icons/Stop'
-
-const url = 'http://localhost:3000/'
 
 const getDuration = (dept, arrv) => {
   // format is 'YYYY-MM-DDTHH:MM'
@@ -103,7 +100,7 @@ const EditLeg = props => {
   
   const updateLeg = async () => {
     try {
-      const res = await fetch(`${url}api/legs/${router.query.id}`, {
+      const res = await fetch(`/api/legs/${router.query.id}`, {
         method: 'PUT',
         headers: {
           'Accept': 'application/json',
@@ -341,10 +338,10 @@ const EditLeg = props => {
 }
 
 EditLeg.getInitialProps = async ({ query: { id } }) => {
-  const al_res = await fetch(`${url}api/airlines`)
+  const al_res = await fetch(`/api/airlines`)
   const airlines = await al_res.json()
   
-  const lg_res = await fetch(`${url}api/legs/${id}`)
+  const lg_res = await fetch(`/api/legs/${id}`)
   const leg = await lg_res.json()
   return { leg: leg.data, airlines: airlines.data }
 }

@@ -1,11 +1,8 @@
-import fetch from 'isomorphic-unfetch'
 import styles from '../styles/Home.module.css'
 import { makeStyles } from '@material-ui/core/styles'
 import Grid from '@material-ui/core/Grid'
 
 import Flights from '../src/components/Flights'
-
-const url = 'http://localhost:3000/'
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -60,10 +57,10 @@ const Home = props => {
 }
 
 Home.getInitialProps = async () => {
-  const it_res = await fetch(`${url}api/itineraries`)
+  const it_res = await fetch(`/api/itineraries`)
   const itineraries = await it_res.json()
 
-  const lg_res = await fetch(`${url}api/legs`)
+  const lg_res = await fetch(`/api/legs`)
   const legs = await lg_res.json()
   
   return { itineraries: itineraries.data, legs: legs.data }

@@ -2,7 +2,6 @@ import Link from 'next/link'
 import { useRouter } from 'next/router'
 
 import { useState, useEffect } from 'react'
-import fetch from 'isomorphic-unfetch'
 
 import { makeStyles } from '@material-ui/core/styles'
 import FormControl from '@material-ui/core/FormControl'
@@ -22,8 +21,6 @@ import InputAdornment from '@material-ui/core/InputAdornment'
 import FormHelperText from '@material-ui/core/FormHelperText'
 
 import Leg from '../src/components/Leg'
-
-const url = 'http://localhost:3000/'
 
 const useStyles = makeStyles((theme) => ({
   title: {
@@ -108,7 +105,7 @@ const NewItinerary = props => {
 
   const addItinerary = async () => {
     try {
-      const res = await fetch(`${url}api/itineraries`, {
+      const res = await fetch(`/api/itineraries`, {
         method: 'POST',
         headers: {
           'Accept': 'application/json',
@@ -259,10 +256,10 @@ const NewItinerary = props => {
 }
 
 NewItinerary.getInitialProps = async () => {
-  const lg_res = await fetch(`${url}api/legs`)
+  const lg_res = await fetch(`/api/legs`)
   const legs = await lg_res.json()
 
-  const ag_res = await fetch(`${url}api/agents`)
+  const ag_res = await fetch(`/api/agents`)
   const agents = await ag_res.json()
 
   return { legs: legs.data, agents: agents.data }

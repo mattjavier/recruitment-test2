@@ -2,7 +2,6 @@ import Link from 'next/link'
 import { useRouter } from 'next/router'
 
 import { useState, useEffect } from 'react'
-import fetch from 'isomorphic-unfetch'
 import moment from 'moment'
 
 import { makeStyles } from '@material-ui/core/styles'
@@ -19,8 +18,6 @@ import InputAdornment from '@material-ui/core/InputAdornment'
 import FlightLandIcon from '@material-ui/icons/FlightLand'
 import FlightTakeoffIcon from '@material-ui/icons/FlightTakeoff'
 import StopIcon from '@material-ui/icons/Stop'
-
-const url = 'http://localhost:3000/'
 
 const getDuration = (dept, arrv) => {
   // format is 'YYYY-MM-DDTHH:MM'
@@ -103,7 +100,7 @@ const NewLeg = props => {
   
   const addLeg = async () => {
     try {
-      const res = await fetch(`${url}api/legs`, {
+      const res = await fetch(`/api/legs`, {
         method: 'POST',
         headers: {
           'Accept': 'application/json',
@@ -342,7 +339,7 @@ const NewLeg = props => {
 }
 
 NewLeg.getInitialProps = async () => {
-  const al_res = await fetch(`${url}api/airlines`)
+  const al_res = await fetch(`/api/airlines`)
   const airlines = await al_res.json()
   
   return { airlines: airlines.data }

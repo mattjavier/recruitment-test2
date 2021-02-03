@@ -1,7 +1,6 @@
 import { useRouter } from 'next/router'
 
 import { useState, useEffect } from 'react'
-import fetch from 'isomorphic-unfetch'
 
 import { makeStyles } from '@material-ui/core/styles'
 import Grid from '@material-ui/core/Grid'
@@ -9,8 +8,6 @@ import Button from '@material-ui/core/Button'
 import DeleteIcon from '@material-ui/icons/Delete'
 
 import Itinerary from '../../../src/components/Itinerary'
-
-const url = 'http://localhost:3000/'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -37,7 +34,7 @@ const DeleteItinerary = props => {
 
   const deleteItinerary = async () => {
     try {
-      const deletedItinerary = await fetch(`${url}api/itineraries/${router.query.id}`, {
+      const deletedItinerary = await fetch(`/api/itineraries/${router.query.id}`, {
         method: 'DELETE'
       })
 
@@ -70,10 +67,10 @@ const DeleteItinerary = props => {
 }
 
 DeleteItinerary.getInitialProps = async ({ query: { id } }) => {
-  const res = await fetch(`${url}api/itineraries/${id}`)
+  const res = await fetch(`/api/itineraries/${id}`)
   const itinerary = await res.json()
 
-  const lg_res = await fetch(`${url}api/legs`)
+  const lg_res = await fetch(`/api/legs`)
   const legs = await lg_res.json()
 
   return { itinerary: itinerary.data, legs: legs.data }

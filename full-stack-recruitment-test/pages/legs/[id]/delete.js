@@ -1,7 +1,6 @@
 import { useRouter } from 'next/router'
 
 import { useState, useEffect } from 'react'
-import fetch from 'isomorphic-unfetch'
 
 import { makeStyles } from '@material-ui/core/styles'
 import Grid from '@material-ui/core/Grid'
@@ -12,8 +11,6 @@ import Button from '@material-ui/core/Button'
 import DeleteIcon from '@material-ui/icons/Delete'
 
 import Leg from '../../../src/components/Leg'
-
-const url = 'http://localhost:3000/'
 
 const useStyles = makeStyles((theme) => ({
   card: {
@@ -49,12 +46,12 @@ const DeleteLeg = props => {
       let ids = references.map(reference => reference._id)
       
       for (let i = 0; i < ids.length; i++) {
-        const deletedIt = await fetch(`${url}api/itineraries/${ids[i]}`, {
+        const deletedIt = await fetch(`/api/itineraries/${ids[i]}`, {
           method: 'DELETE'
         })
       }
 
-      const deletedLeg = await fetch(`${url}api/legs/${router.query.id}`, {
+      const deletedLeg = await fetch(`/api/legs/${router.query.id}`, {
         method: 'DELETE',
       })
 
@@ -92,10 +89,10 @@ const DeleteLeg = props => {
 }
 
 DeleteLeg.getInitialProps = async ({ query: { id }}) => {
-  const res = await fetch(`${url}api/legs/${id}`)
+  const res = await fetch(`/api/legs/${id}`)
   const leg = await res.json()
 
-  const it_res = await fetch(`${url}api/itineraries`)
+  const it_res = await fetch(`/api/itineraries`)
   const itineraries = await it_res.json()
  
   return { leg: leg.data, itineraries: itineraries.data }
