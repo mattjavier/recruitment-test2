@@ -51,7 +51,7 @@ const DeleteLeg = props => {
     }
   }
 
-  const handleDelete = async() => {
+  const handleDelete = async () => {
     setDeleted(true)
   }
 
