@@ -11,17 +11,15 @@ import Card from '@material-ui/core/Card'
 import CardActions from '@material-ui/core/CardActions'
 import CardContent from '@material-ui/core/CardContent'
 import Checkbox from '@material-ui/core/Checkbox'
-import Radio from '@material-ui/core/Radio'
 import InputLabel from '@material-ui/core/InputLabel'
 import Button from '@material-ui/core/Button'
-import Snackbar from '@material-ui/core/Snackbar'
-import MuiAlert from '@material-ui/lab/Alert'
 import Select from '@material-ui/core/Select'
 import MenuItem from '@material-ui/core/MenuItem'
 import TextField from '@material-ui/core/TextField'
 import Grid from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography'
 import InputAdornment from '@material-ui/core/InputAdornment'
+import FormHelperText from '@material-ui/core/FormHelperText'
 
 import Leg from '../src/components/Leg'
 
@@ -74,10 +72,6 @@ const useStyles = makeStyles((theme) => ({
   }
 }))
 
-const Alert = (props) => {
-  return <MuiAlert elevation={6} variant="filled" {...props} />
-}
-
 const NewItinerary = props => {
 
   const classes = useStyles()
@@ -95,9 +89,10 @@ const NewItinerary = props => {
   const [checked, setChecked] = useState(legKeys)
   const [submitting, setSubmitting] = useState(false)
   const [errorState, setErrorState] = useState({})
-  const [open, setOpen] = useState(false)
   const router = useRouter()
   
+  const checkboxError = Object.keys(legKeys).filter((item) => checked[item]).length !== 2
+
   useEffect(() => {
     let numErrors = Object.keys(errorState).length
     if (submitting) {
@@ -133,19 +128,11 @@ const NewItinerary = props => {
     setFormState({ ...formState, [event.target.name]: event.target.value })
   }
 
-  const handleSnack = () => {
-    setOpen(true)
-  }
-
-  const handleSnackClose = () => {
-    setOpen(false)
-  }
-
   const validation = () => {
     let errors = {}
 
     if (!formState.legs || formState.legs.length !== 2) {
-      errors.legs = true
+      errors.legs = checkboxError
     }
     
     if (formState.price < 0 || formState.price === '') {
@@ -174,10 +161,7 @@ const NewItinerary = props => {
 
     const errors = validation()
     setErrorState(errors)
-    
-    if (Object.keys(errorState).length > 0) {
-      handleSnack()
-    }
+
     setSubmitting(true)
   }
 
@@ -193,28 +177,35 @@ const NewItinerary = props => {
       </Typography>
       <form onSubmit={handleSubmit} autoComplete="off" className={classes.form}>
         <Grid container direction="column" justify="center" className={classes.section}>
-          <FormLabel className={classes.input}>Select 2 Flights</FormLabel>
-          {
-            props.legs.map(leg => {
-              return (
-                <Card className={classes.card}>
-                  <CardContent>
-                    <Leg key={leg._id} leg={leg} access={false} />
-                  </CardContent>
-                  <CardActions disableSpacing className={classes.cardActions}>
-                    <Checkbox 
-                      onChange={handleChange}
-                      name={`${leg._id}`}
-                      checked={checked[leg._id]}
-                    />
-                  </CardActions>
-                </Card>
-              )
-            })
-          }
+          <FormControl required error={checkboxError}>
+            <FormLabel className={classes.input}>Select 2 Flights</FormLabel>
+            {
+              props.legs.map(leg => {
+                return (
+                  <Card className={classes.card}>
+                    <CardContent>
+                      <Leg key={leg._id} leg={leg} access={false} />
+                    </CardContent>
+                    <CardActions disableSpacing className={classes.cardActions}>
+                      <Checkbox 
+                        onChange={handleChange}
+                        name={`${leg._id}`}
+                        checked={checked[leg._id]}
+                      />
+                    </CardActions>
+                  </Card>
+                )
+              })
+            }
+            {
+              checkboxError ? <FormHelperText>Please select 2 flights</FormHelperText> : null
+            }
+          </FormControl>
         </Grid>
         <Grid container direction="column" justify="center" className={classes.section}>
           <TextField
+            error={errorState.price}
+            helperText={errorState.price ? 'Please input a price' : null }
             label="Price"
             name="price"
             value={formState.price}
@@ -234,7 +225,7 @@ const NewItinerary = props => {
               startAdornment: <InputAdornment positiion="start" className={classes.input}>&pound;&nbsp;</InputAdornment> 
             }}
           />
-          <FormControl variant="outlined" className={classes.select}>
+          <FormControl variant="outlined" className={classes.select} error={errorState.agent}>
             <InputLabel id="agent" className={classes.inputLabel}>Agent</InputLabel>
             <Select
               labelId="agent"
@@ -254,20 +245,13 @@ const NewItinerary = props => {
                 })
               }
             </Select>
+            {
+              errorState.agent ? <FormHelperText>Please select an agent</FormHelperText> : null
+            }
           </FormControl>
         </Grid>
         <Button variant="contained" type="submit" color="primary" className={classes.button}>Submit</Button>
       </form>
-
-      <Snackbar
-        open={open}
-        autoHideDuration={3000}
-        onClose={handleSnackClose}
-      >
-        <Alert onClose={handleSnackClose} severity="error">
-          Please fill out all fields or make sure only 2 Flights are selected
-        </Alert>
-      </Snackbar>
     </Grid>
   )
 }
