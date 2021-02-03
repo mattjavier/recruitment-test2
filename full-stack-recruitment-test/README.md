@@ -16,6 +16,11 @@ yarn dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the application.
 
+To test the database Schemas:
+```bash
+npm run test
+```
+
 ## Usage
 
 Users can view a list of flight itineraries from the root page. Each `Itinerary` is made up of `Legs` (or flights) with the corresponding data:
