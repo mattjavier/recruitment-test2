@@ -22,7 +22,7 @@ import FormHelperText from '@material-ui/core/FormHelperText'
 
 import Leg from '../src/components/Leg'
 
-const url = process.env.NEXT_PUBLIC_VERCEL_URL || 'http://localhost:3000'
+const url = 'http://localhost:3000'
 
 const useStyles = makeStyles((theme) => ({
   title: {

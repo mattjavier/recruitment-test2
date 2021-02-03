@@ -9,7 +9,7 @@ import DeleteIcon from '@material-ui/icons/Delete'
 
 import Itinerary from '../../../src/components/Itinerary'
 
-const url = process.env.NEXT_PUBLIC_VERCEL_URL || 'http://localhost:3000'
+const url = 'http://localhost:3000'
 
 const useStyles = makeStyles((theme) => ({
   root: {
