@@ -12,7 +12,7 @@ import DeleteIcon from '@material-ui/icons/Delete'
 
 import Leg from '../../../src/components/Leg'
 
-const url = 'http://localhost:3000'
+const url = process.env.NODE_ENV === 'production' ? 'https://recruitment-test2.vercel.app' : 'http://localhost:3000'
 
 const useStyles = makeStyles((theme) => ({
   card: {

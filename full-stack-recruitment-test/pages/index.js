@@ -4,7 +4,7 @@ import Grid from '@material-ui/core/Grid'
 
 import Flights from '../src/components/Flights'
 
-const url = 'http://localhost:3000'
+const url = process.env.NODE_ENV === 'production' ? 'https://recruitment-test2.vercel.app' : 'http://localhost:3000'
 
 const useStyles = makeStyles((theme) => ({
   container: {
