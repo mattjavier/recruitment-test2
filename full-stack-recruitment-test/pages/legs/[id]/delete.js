@@ -41,9 +41,21 @@ const DeleteLeg = props => {
 
   const deleteLeg = async () => {
     try {
+      let legId = router.query.id
+
+      let references = props.itineraries.filter(itinerary => itinerary.legs.includes(legId))
+      let ids = references.map(reference => reference._id)
+      
+      for (let i = 0; i < ids.length; i++) {
+        const deletedIt = await fetch(`http://localhost:3000/api/itineraries/${ids[i]}`, {
+          method: 'DELETE'
+        })
+      }
+
       const deletedLeg = await fetch(`http://localhost:3000/api/legs/${router.query.id}`, {
-        method: 'DELETE'
+        method: 'DELETE',
       })
+
 
       router.push('/')
     } catch (error) {
@@ -81,7 +93,10 @@ DeleteLeg.getInitialProps = async ({ query: { id }}) => {
   const res = await fetch(`http://localhost:3000/api/legs/${id}`)
   const leg = await res.json()
 
-  return { leg: leg.data }
+  const it_res = await fetch('http://localhost:3000/api/itineraries')
+  const itineraries = await it_res.json()
+ 
+  return { leg: leg.data, itineraries: itineraries.data }
 }
 
 export default DeleteLeg
