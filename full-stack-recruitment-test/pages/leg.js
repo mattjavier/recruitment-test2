@@ -103,7 +103,7 @@ const NewLeg = props => {
   
   const addLeg = async () => {
     try {
-      const res = await fetch(`${url}/api/legs`, {
+      const res = await fetch(`${url}api/legs`, {
         method: 'POST',
         headers: {
           'Accept': 'application/json',
@@ -342,7 +342,7 @@ const NewLeg = props => {
 }
 
 NewLeg.getInitialProps = async () => {
-  const al_res = await fetch(`${url}/api/airlines`)
+  const al_res = await fetch(`${url}api/airlines`)
   const airlines = await al_res.json()
   
   return { airlines: airlines.data }

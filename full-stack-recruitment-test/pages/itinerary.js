@@ -108,7 +108,7 @@ const NewItinerary = props => {
 
   const addItinerary = async () => {
     try {
-      const res = await fetch(`${url}/api/itineraries`, {
+      const res = await fetch(`${url}api/itineraries`, {
         method: 'POST',
         headers: {
           'Accept': 'application/json',
@@ -259,10 +259,10 @@ const NewItinerary = props => {
 }
 
 NewItinerary.getInitialProps = async () => {
-  const lg_res = await fetch(`${url}/api/legs`)
+  const lg_res = await fetch(`${url}api/legs`)
   const legs = await lg_res.json()
 
-  const ag_res = await fetch(`${url}/api/agents`)
+  const ag_res = await fetch(`${url}api/agents`)
   const agents = await ag_res.json()
 
   return { legs: legs.data, agents: agents.data }

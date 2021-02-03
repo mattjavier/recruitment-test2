@@ -60,10 +60,10 @@ const Home = props => {
 }
 
 Home.getInitialProps = async () => {
-  const it_res = await fetch(`${url}/api/itineraries`)
+  const it_res = await fetch(`${url}api/itineraries`)
   const itineraries = await it_res.json()
 
-  const lg_res = await fetch(`${url}/api/legs`)
+  const lg_res = await fetch(`${url}api/legs`)
   const legs = await lg_res.json()
   
   return { itineraries: itineraries.data, legs: legs.data }

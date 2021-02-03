@@ -37,7 +37,7 @@ const DeleteItinerary = props => {
 
   const deleteItinerary = async () => {
     try {
-      const deletedItinerary = await fetch(`${url}/api/itineraries/${router.query.id}`, {
+      const deletedItinerary = await fetch(`${url}api/itineraries/${router.query.id}`, {
         method: 'DELETE'
       })
 
@@ -70,10 +70,10 @@ const DeleteItinerary = props => {
 }
 
 DeleteItinerary.getInitialProps = async ({ query: { id } }) => {
-  const res = await fetch(`${url}/api/itineraries/${id}`)
+  const res = await fetch(`${url}api/itineraries/${id}`)
   const itinerary = await res.json()
 
-  const lg_res = await fetch(`${url}/api/legs`)
+  const lg_res = await fetch(`${url}api/legs`)
   const legs = await lg_res.json()
 
   return { itinerary: itinerary.data, legs: legs.data }
