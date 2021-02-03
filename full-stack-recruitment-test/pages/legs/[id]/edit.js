@@ -20,6 +20,7 @@ import InputAdornment from '@material-ui/core/InputAdornment'
 import FlightLandIcon from '@material-ui/icons/FlightLand'
 import FlightTakeoffIcon from '@material-ui/icons/FlightTakeoff'
 import StopIcon from '@material-ui/icons/Stop'
+import CircularProgress from '@material-ui/core/CircularProgress'
 
 const getDuration = (dept, arrv) => {
   // format is 'YYYY-MM-DDTHH:MM'
@@ -74,7 +75,7 @@ const Alert = (props) => {
 const EditLeg = props => {
 
   const classes = useStyles()
-
+  
   const [formState, setFormState] = useState({
     departureAirport: props.leg.departureAirport,
     arrivalAirport: props.leg.arrivalAirport,
@@ -87,14 +88,16 @@ const EditLeg = props => {
   })
 
   const [submitting, setSubmitting] = useState(false)
-  const [errorState, setErrorState] = useState(false)
+  const [errorState, setErrorState] = useState({})
   const [open, setOpen] = useState(false)
   const router = useRouter()
 
   useEffect(() => {
+
+    let numErrors = Object.keys(errorState).length
     if (submitting) {
-      if (errorState === false) {
-        addLeg()
+      if (numErrors === 0) {
+        updateLeg()
       } else {
         setSubmitting(false)
       }
@@ -102,7 +105,7 @@ const EditLeg = props => {
   }, [errorState])
 
   
-  const addLeg = async () => {
+  const updateLeg = async () => {
     try {
       const res = await fetch(`http://localhost:3000/api/legs/${router.query.id}`, {
         method: 'PUT',
@@ -130,26 +133,52 @@ const EditLeg = props => {
   }
   
   const validation = () => {
+    let errors = {}
 
-    let errors = false
-    if (!formState.departureAirport ||!formState.arrivalAirport
-    || !formState.departureTime || !formState.arrivalTime
-    || (formState.stops < 0 || formState.stops === 'NaN' || formState.stops === '') || !formState.airlineName
-    || !formState.airlineId || !formState.durationMins) {
-      errors = true
-      handleSnack()
+    if (!formState.departureAirport) {
+      errors.departureAirport = true
+    }
+    
+    if (!formState.arrivalAirport) {
+      errors.arrivalAirport = true
+    }
+    
+    if (!formState.departureTime) {
+      errors.departureTime = true
+    } 
+    
+    if (!formState.arrivalTime) {
+      errors.arrivalTime = true
+    }
+    
+    if (formState.stops < 0 || formState.stops === 'NaN' || formState.stops === '') {
+      errors.stops = true
+    } 
+    
+    if (!formState.airlineName) {
+      errors.airlineName = true
+    }
+    
+    if (!formState.airlineId) {
+      errors.airlineId = true
+    } 
+    
+    if (formState.durationMins === '') {
+      errors.durationMins = true
     }
 
+    if (Object.keys(errors).length > 0) {
+      handleSnack()
+    }
     return errors
   }
 
   const handleSubmit = event => {
     event.preventDefault()
     
-    const stops = parseInt(formState.stops)
-    console.log(formState)
-    const airlineId = props.airlines.filter(airline => formState.airlineName === airline.name).map(airline => airline.airlineId)[0]
-    const durationMins = getDuration(formState.departureTime, formState.arrivalTime)
+    let stops = parseInt(formState.stops)
+    let airlineId = props.airlines.filter(airline => formState.airlineName === airline.name).map(airline => airline.airlineId)[0]
+    let durationMins = getDuration(formState.departureTime, formState.arrivalTime)
     setFormState({
       ...formState,
       stops,
@@ -157,8 +186,8 @@ const EditLeg = props => {
       durationMins
     })
     
-    const hasErrors = validation()
-    setErrorState(hasErrors)
+    let errors = validation()
+    setErrorState(errors)
    
     setSubmitting(true)
     
@@ -171,7 +200,7 @@ const EditLeg = props => {
       justify="center"
       alignItems="center"
     >
-      <Typography variant="h2" component="h2" color="primary" className={classes.title}>Add Leg</Typography>
+      <Typography variant="h2" component="h2" color="primary" className={classes.title}>Update Leg</Typography>
       <form onSubmit={handleSubmit} autoComplete="off" className={classes.form}>
         <Grid container direction="column" justify="center" className={classes.section}>
           <TextField

@@ -87,13 +87,15 @@ const NewLeg = props => {
   })
 
   const [submitting, setSubmitting] = useState(false)
-  const [errorState, setErrorState] = useState(false)
+  const [errorState, setErrorState] = useState({})
   const [open, setOpen] = useState(false)
   const router = useRouter()
 
   useEffect(() => {
+
+    let numErrors = Object.keys(errorState).length
     if (submitting) {
-      if (errorState === false) {
+      if (numErrors === 0) {
         addLeg()
       } else {
         setSubmitting(false)
@@ -130,26 +132,53 @@ const NewLeg = props => {
   }
   
   const validation = () => {
+    let errors = {}
 
-    let errors = false
-    if (!formState.departureAirport ||!formState.arrivalAirport
-    || !formState.departureTime || !formState.arrivalTime
-    || (formState.stops < 0 || formState.stops === 'NaN' || formState.stops === '') || !formState.airlineName
-    || !formState.airlineId || !formState.durationMins) {
-      errors = true
-      handleSnack()
+    if (!formState.departureAirport) {
+      errors.departureAirport = true
+    }
+    
+    if (!formState.arrivalAirport) {
+      errors.arrivalAirport = true
+    }
+    
+    if (!formState.departureTime) {
+      errors.departureTime = true
+    } 
+    
+    if (!formState.arrivalTime) {
+      errors.arrivalTime = true
+    }
+    
+    if (formState.stops < 0 || formState.stops === 'NaN' || formState.stops === '') {
+      errors.stops = true
+    } 
+    
+    if (!formState.airlineName) {
+      errors.airlineName = true
+    }
+    
+    if (!formState.airlineId) {
+      errors.airlineId = true
+    } 
+    
+    if (formState.durationMins === '') {
+      errors.durationMins = true
     }
 
+    if (Object.keys(errors).length > 0) {
+      handleSnack()
+    }
     return errors
   }
 
   const handleSubmit = event => {
     event.preventDefault()
     
-    const stops = parseInt(formState.stops)
+    let stops = parseInt(formState.stops)
     console.log(formState)
-    const airlineId = props.airlines.filter(airline => formState.airlineName === airline.name).map(airline => airline.airlineId)[0]
-    const durationMins = getDuration(formState.departureTime, formState.arrivalTime)
+    let airlineId = props.airlines.filter(airline => formState.airlineName === airline.name).map(airline => airline.airlineId)[0]
+    let durationMins = getDuration(formState.departureTime, formState.arrivalTime)
     setFormState({
       ...formState,
       stops,
@@ -157,8 +186,8 @@ const NewLeg = props => {
       durationMins
     })
     
-    const hasErrors = validation()
-    setErrorState(hasErrors)
+    let errors = validation()
+    setErrorState(errors)
    
     setSubmitting(true)
     
