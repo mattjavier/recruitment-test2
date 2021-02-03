@@ -37,7 +37,8 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
-    width: '75%'
+    width: '75%',
+    paddingBottom: theme.spacing(4)
   },
   section: {
     '& .MuiTextField-root': {

@@ -20,7 +20,6 @@ import InputAdornment from '@material-ui/core/InputAdornment'
 import FlightLandIcon from '@material-ui/icons/FlightLand'
 import FlightTakeoffIcon from '@material-ui/icons/FlightTakeoff'
 import StopIcon from '@material-ui/icons/Stop'
-import CircularProgress from '@material-ui/core/CircularProgress'
 
 const getDuration = (dept, arrv) => {
   // format is 'YYYY-MM-DDTHH:MM'
@@ -38,7 +37,8 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
-    width: '75%'
+    width: '75%',
+    paddingBottom: theme.spacing(4)
   },
   section: {
     '& .MuiTextField-root': {
