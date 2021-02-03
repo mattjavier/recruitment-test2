@@ -167,9 +167,6 @@ const EditLeg = props => {
       errors.durationMins = true
     }
 
-    if (Object.keys(errors).length > 0) {
-      handleSnack()
-    }
     return errors
   }
 
@@ -189,6 +186,10 @@ const EditLeg = props => {
     let errors = validation()
     setErrorState(errors)
    
+    if (Object.keys(errorState).length > 0) {
+      handleSnack()
+    }
+
     setSubmitting(true)
     
   }

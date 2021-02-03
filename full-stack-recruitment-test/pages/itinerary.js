@@ -93,14 +93,15 @@ const NewItinerary = props => {
 
   const [checked, setChecked] = useState(legKeys)
   const [submitting, setSubmitting] = useState(false)
-  const [errorState, setErrorState] = useState(false)
+  const [errorState, setErrorState] = useState({})
   const [open, setOpen] = useState(false)
   const router = useRouter()
   
   useEffect(() => {
+    let numErrors = Object.keys(errorState).length
     if (submitting) {
-      if (errorState === false) {
-        console.log('ready to add')
+      if (numErrors === 0) {
+        addItinerary()
       } else {
         setSubmitting(false)
       }
@@ -140,14 +141,23 @@ const NewItinerary = props => {
   }
 
   const validation = () => {
-    let errors = false
-    if ((!formState.legs || formState.legs.length !== 2)
-    || (formState.price < 0 || formState.price === '') || !formState.agent 
-    || !formState.agentRating ) {
-      errors = true
-      handleSnack()
-    }
+    let errors = {}
 
+    if (!formState.legs || formState.legs.length !== 2) {
+      errors.legs = true
+    }
+    
+    if (formState.price < 0 || formState.price === '') {
+      errors.price = true
+    }
+    if (!formState.agent) {
+      errors.agent = true
+    } 
+    
+    if (!formState.agentRating ) {
+      errors.agentRating = true
+    }
+    
     return errors
   }
 
@@ -161,8 +171,12 @@ const NewItinerary = props => {
     const agentRating = props.agents.filter(agent => formState.agent === agent.name).map(agent => agent.rating)[0]
     setFormState({ ...formState, legs, price, agentRating })
 
-    const hasErrors = validation()
-    setErrorState(hasErrors)
+    const errors = validation()
+    setErrorState(errors)
+    
+    if (Object.keys(errorState).length > 0) {
+      handleSnack()
+    }
     setSubmitting(true)
   }
 
