@@ -7,10 +7,9 @@ import moment from 'moment'
 
 import { makeStyles } from '@material-ui/core/styles'
 import FormControl from '@material-ui/core/FormControl'
+import FormHelperText from '@material-ui/core/FormHelperText'
 import InputLabel from '@material-ui/core/InputLabel'
 import Button from '@material-ui/core/Button'
-import Snackbar from '@material-ui/core/Snackbar'
-import MuiAlert from '@material-ui/lab/Alert'
 import Select from '@material-ui/core/Select'
 import MenuItem from '@material-ui/core/MenuItem'
 import TextField from '@material-ui/core/TextField'
@@ -68,10 +67,6 @@ const useStyles = makeStyles((theme) => ({
   }
 }))
 
-const Alert = (props) => {
-  return <MuiAlert elevation={6} variant="filled" {...props} />
-}
-
 const NewLeg = props => {
 
   const classes = useStyles()
@@ -89,7 +84,6 @@ const NewLeg = props => {
 
   const [submitting, setSubmitting] = useState(false)
   const [errorState, setErrorState] = useState({})
-  const [open, setOpen] = useState(false)
   const router = useRouter()
 
   useEffect(() => {
@@ -124,14 +118,7 @@ const NewLeg = props => {
   const handleInputChange = event => {
     setFormState({ ...formState, [event.target.name]: event.target.value })
   }
-  
-  const handleSnack = () => {
-    setOpen(true)
-  }
-  const handleSnackClose = () => {
-    setOpen(false)
-  }
-  
+
   const validation = () => {
     let errors = {}
 
@@ -174,7 +161,7 @@ const NewLeg = props => {
     event.preventDefault()
     
     let stops = parseInt(formState.stops)
-    console.log(formState)
+    
     let airlineId = props.airlines.filter(airline => formState.airlineName === airline.name).map(airline => airline.airlineId)[0]
     let durationMins = getDuration(formState.departureTime, formState.arrivalTime)
     setFormState({
@@ -186,10 +173,6 @@ const NewLeg = props => {
     
     let errors = validation()
     setErrorState(errors)
-   
-    if (Object.keys(errorState).length > 0) {
-      handleSnack()
-    }
 
     setSubmitting(true)
     
@@ -206,6 +189,8 @@ const NewLeg = props => {
       <form onSubmit={handleSubmit} autoComplete="off" className={classes.form}>
         <Grid container direction="column" justify="center" className={classes.section}>
           <TextField
+            error={errorState.departureAirport}
+            helperText={errorState.departureAirport ? 'Please input an airport' : null }
             label="Departure Airport"
             name="departureAirport"
             value={formState.departureAirport}
@@ -226,6 +211,8 @@ const NewLeg = props => {
             }}
           />
           <TextField
+            error={errorState.arrivalAirport}
+            helperText={errorState.arrivalAirport ? 'Please input an airport' : null }
             label="Arrival Airport"
             name="arrivalAirport"
             value={formState.arrivalAirport}
@@ -248,6 +235,8 @@ const NewLeg = props => {
         </Grid>
         <Grid container justify="center" direction="column" className={classes.section}>
           <TextField
+            error={errorState.departureTime}
+            helperText={errorState.departureTime ? 'Please input a time' : null }
             label="Departure Time"
             name="departureTime"
             value={formState.departureTime}
@@ -271,6 +260,8 @@ const NewLeg = props => {
           />
           
           <TextField
+            error={errorState.arrivalTime}
+            helperText={errorState.arrivalTime ? 'Please input a time' : null }
             label="Arrival Time"
             name="arrivalTime"
             value={formState.arrivalTime}
@@ -295,6 +286,8 @@ const NewLeg = props => {
         </Grid>
         <Grid container justify="center" direction="column" className={classes.section}>
           <TextField
+            error={errorState.stops}
+            helperText={errorState.stops ? 'Please input a number of stops' : null }
             label="Stops"
             name="stops"
             value={formState.stops}
@@ -314,7 +307,7 @@ const NewLeg = props => {
               endAdornment: <InputAdornment position="end"><StopIcon /></InputAdornment>
             }}
           />
-          <FormControl variant="outlined" className={classes.select}>
+          <FormControl variant="outlined" className={classes.select} rror={errorState.airlineName}>
             <InputLabel id="airline" className={classes.inputLabel}>Airline</InputLabel>
             <Select 
               labelId="airline" 
@@ -334,21 +327,14 @@ const NewLeg = props => {
                 })
               }
             </Select>
+            {
+              errorState.airlineName ? <FormHelperText>Please select an airline</FormHelperText> : null
+            }
           </FormControl>
         </Grid>
         
         <Button variant="contained" type="submit" color="primary" className={classes.button}>Submit</Button>
       </form>
-   
-      <Snackbar
-        open={open} 
-        autoHideDuration={3000}
-        onClose={handleSnackClose}
-      >
-        <Alert onClose={handleSnackClose} severity="error">
-          Please fill out all fields
-        </Alert>
-      </Snackbar>
     </Grid>
   )
 }
