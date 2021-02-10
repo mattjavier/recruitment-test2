@@ -23,8 +23,6 @@ import FormHelperText from '@material-ui/core/FormHelperText'
 import Leg from '../../../src/components/Leg'
 
 import absoluteUrl from 'next-absolute-url'
-const { origin } = absoluteUrl(req)
-const url = process.env.NODE_ENV === 'production' ? origin : 'http://localhost:3000'
 
 const useStyles = makeStyles((theme) => ({
   title: {
@@ -111,7 +109,7 @@ const EditItinerary = props => {
 
   const updateItinerary = async () => {
     try {
-      const res = await fetch(`${url}/api/itineraries/${router.query.id}`, {
+      const res = await fetch(`${props.url}/api/itineraries/${router.query.id}`, {
         method: 'PUT',
         headers: {
           'Accept': 'application/json',
@@ -262,6 +260,9 @@ const EditItinerary = props => {
 }
 
 EditItinerary.getInitialProps = async ({ query: { id } }) => {
+  const { origin } = absoluteUrl(req)
+  const url = process.env.NODE_ENV === 'production' ? origin : 'http://localhost:3000'
+
   const lg_res = await fetch(`${url}/api/legs`)
   const legs = await lg_res.json()
 
@@ -270,7 +271,7 @@ EditItinerary.getInitialProps = async ({ query: { id } }) => {
 
   const it_res = await fetch(`${url}/api/itineraries/${id}`)
   const itineraries = await it_res.json()
-  return { itineraries: itineraries.data, legs: legs.data, agents: agents.data }
+  return { itineraries: itineraries.data, legs: legs.data, agents: agents.data, url: url }
 }
 
 export default EditItinerary

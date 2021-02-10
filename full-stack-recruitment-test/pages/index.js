@@ -5,8 +5,6 @@ import Grid from '@material-ui/core/Grid'
 import Flights from '../src/components/Flights'
 
 import absoluteUrl from 'next-absolute-url'
-const { origin } = absoluteUrl(req)
-const url = process.env.NODE_ENV === 'production' ? origin : 'http://localhost:3000'
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -61,6 +59,9 @@ const Home = props => {
 }
 
 Home.getInitialProps = async () => {
+  const { origin } = absoluteUrl(req)
+  const url = process.env.NODE_ENV === 'production' ? origin : 'http://localhost:3000'
+
   const it_res = await fetch(`${url}/api/itineraries`)
   const itineraries = await it_res.json()
 

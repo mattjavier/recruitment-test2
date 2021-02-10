@@ -21,8 +21,7 @@ import StopIcon from '@material-ui/icons/Stop'
 
 
 import absoluteUrl from 'next-absolute-url'
-const { origin } = absoluteUrl(req)
-const url = process.env.NODE_ENV === 'production' ? origin : 'http://localhost:3000'
+
 
 const getDuration = (dept, arrv) => {
   // format is 'YYYY-MM-DDTHH:MM'
@@ -105,7 +104,7 @@ const NewLeg = props => {
   
   const addLeg = async () => {
     try {
-      const res = await fetch(`${url}/api/legs`, {
+      const res = await fetch(`${props.url}/api/legs`, {
         method: 'POST',
         headers: {
           'Accept': 'application/json',
@@ -344,10 +343,14 @@ const NewLeg = props => {
 }
 
 NewLeg.getInitialProps = async () => {
+  const { origin } = absoluteUrl(req)
+  const url = process.env.NODE_ENV === 'production' ? origin : 'http://localhost:3000'
+
   const al_res = await fetch(`${url}/api/airlines`)
   const airlines = await al_res.json()
+
   
-  return { airlines: airlines.data }
+  return { airlines: airlines.data, url: url }
 }
 
 export default NewLeg

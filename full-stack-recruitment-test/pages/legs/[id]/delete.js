@@ -13,8 +13,6 @@ import DeleteIcon from '@material-ui/icons/Delete'
 import Leg from '../../../src/components/Leg'
 
 import absoluteUrl from 'next-absolute-url'
-const { origin } = absoluteUrl(req)
-const url = process.env.NODE_ENV === 'production' ? origin : 'http://localhost:3000'
 
 const useStyles = makeStyles((theme) => ({
   card: {
@@ -50,12 +48,12 @@ const DeleteLeg = props => {
       let ids = references.map(reference => reference._id)
       
       for (let i = 0; i < ids.length; i++) {
-        const deletedIt = await fetch(`${url}/api/itineraries/${ids[i]}`, {
+        const deletedIt = await fetch(`${props.url}/api/itineraries/${ids[i]}`, {
           method: 'DELETE'
         })
       }
 
-      const deletedLeg = await fetch(`${url}/api/legs/${router.query.id}`, {
+      const deletedLeg = await fetch(`${props.url}/api/legs/${router.query.id}`, {
         method: 'DELETE',
       })
 
@@ -93,13 +91,16 @@ const DeleteLeg = props => {
 }
 
 DeleteLeg.getInitialProps = async ({ query: { id }}) => {
+  const { origin } = absoluteUrl(req)
+  const url = process.env.NODE_ENV === 'production' ? origin : 'http://localhost:3000'
+
   const res = await fetch(`${url}/api/legs/${id}`)
   const leg = await res.json()
 
   const it_res = await fetch(`${url}/api/itineraries`)
   const itineraries = await it_res.json()
  
-  return { leg: leg.data, itineraries: itineraries.data }
+  return { leg: leg.data, itineraries: itineraries.data, url: url }
 }
 
 export default DeleteLeg

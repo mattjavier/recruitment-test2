@@ -23,8 +23,6 @@ import FormHelperText from '@material-ui/core/FormHelperText'
 import Leg from '../src/components/Leg'
 
 import absoluteUrl from 'next-absolute-url'
-const { origin } = absoluteUrl(req)
-const url = process.env.NODE_ENV === 'production' ? origin : 'http://localhost:3000'
 
 const useStyles = makeStyles((theme) => ({
   title: {
@@ -109,7 +107,7 @@ const NewItinerary = props => {
 
   const addItinerary = async () => {
     try {
-      const res = await fetch(`${url}/api/itineraries`, {
+      const res = await fetch(`${props.url}/api/itineraries`, {
         method: 'POST',
         headers: {
           'Accept': 'application/json',
@@ -260,13 +258,16 @@ const NewItinerary = props => {
 }
 
 NewItinerary.getInitialProps = async () => {
+  const { origin } = absoluteUrl(req)
+  const url = process.env.NODE_ENV === 'production' ? origin : 'http://localhost:3000'
+
   const lg_res = await fetch(`${url}/api/legs`)
   const legs = await lg_res.json()
 
   const ag_res = await fetch(`${url}/api/agents`)
   const agents = await ag_res.json()
 
-  return { legs: legs.data, agents: agents.data }
+  return { legs: legs.data, agents: agents.data, url: url }
 }
 
 export default NewItinerary

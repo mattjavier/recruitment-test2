@@ -10,8 +10,6 @@ import DeleteIcon from '@material-ui/icons/Delete'
 import Itinerary from '../../../src/components/Itinerary'
 
 import absoluteUrl from 'next-absolute-url'
-const { origin } = absoluteUrl(req)
-const url = process.env.NODE_ENV === 'production' ? origin : 'http://localhost:3000'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -38,7 +36,7 @@ const DeleteItinerary = props => {
 
   const deleteItinerary = async () => {
     try {
-      const deletedItinerary = await fetch(`${url}/api/itineraries/${router.query.id}`, {
+      const deletedItinerary = await fetch(`${props.url}/api/itineraries/${router.query.id}`, {
         method: 'DELETE'
       })
 
@@ -71,13 +69,16 @@ const DeleteItinerary = props => {
 }
 
 DeleteItinerary.getInitialProps = async ({ query: { id } }) => {
+  const { origin } = absoluteUrl(req)
+  const url = process.env.NODE_ENV === 'production' ? origin : 'http://localhost:3000'
+
   const res = await fetch(`${url}/api/itineraries/${id}`)
   const itinerary = await res.json()
 
   const lg_res = await fetch(`${url}/api/legs`)
   const legs = await lg_res.json()
 
-  return { itinerary: itinerary.data, legs: legs.data }
+  return { itinerary: itinerary.data, legs: legs.data, url: url }
 }
 
 export default DeleteItinerary
