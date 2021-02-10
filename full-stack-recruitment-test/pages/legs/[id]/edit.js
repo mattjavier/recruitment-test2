@@ -339,7 +339,11 @@ const EditLeg = props => {
   )
 }
 
-EditLeg.getInitialProps = async ({ query: { id } }) => {
+EditLeg.getInitialProps = async (req, res) => {
+  const {
+    query: { id }
+  } = req
+
   const { origin } = absoluteUrl(req)
   const url = process.env.NODE_ENV === 'production' ? origin : 'http://localhost:3000'
 

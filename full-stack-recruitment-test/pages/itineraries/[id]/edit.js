@@ -259,7 +259,11 @@ const EditItinerary = props => {
   )
 }
 
-EditItinerary.getInitialProps = async ({ query: { id } }) => {
+EditItinerary.getInitialProps = async (req, res) => {
+  const {
+    query: { id }
+  } = req
+
   const { origin } = absoluteUrl(req)
   const url = process.env.NODE_ENV === 'production' ? origin : 'http://localhost:3000'
 

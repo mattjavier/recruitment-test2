@@ -58,7 +58,8 @@ const Home = props => {
   )
 }
 
-Home.getInitialProps = async () => {
+Home.getInitialProps = async (req, res) => {
+
   const { origin } = absoluteUrl(req)
   const url = process.env.NODE_ENV === 'production' ? origin : 'http://localhost:3000'
 

@@ -68,7 +68,11 @@ const DeleteItinerary = props => {
   )
 }
 
-DeleteItinerary.getInitialProps = async ({ query: { id } }) => {
+DeleteItinerary.getInitialProps = async (req, res) => {
+  const {
+    query: { id }
+  } = req
+
   const { origin } = absoluteUrl(req)
   const url = process.env.NODE_ENV === 'production' ? origin : 'http://localhost:3000'
 
