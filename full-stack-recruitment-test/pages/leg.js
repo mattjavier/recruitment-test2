@@ -20,7 +20,9 @@ import FlightTakeoffIcon from '@material-ui/icons/FlightTakeoff'
 import StopIcon from '@material-ui/icons/Stop'
 
 
-const url = process.env.NODE_ENV === 'production' ? process.env.NEXT_PUBLIC_VERCEL_URL : 'http://localhost:3000'
+import absoluteUrl from 'next-absolute-url'
+const { origin } = absoluteUrl(req)
+const url = process.env.NODE_ENV === 'production' ? origin : 'http://localhost:3000'
 
 const getDuration = (dept, arrv) => {
   // format is 'YYYY-MM-DDTHH:MM'
