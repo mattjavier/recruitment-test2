@@ -19,7 +19,7 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 const Home = props => {
-  
+  console.log(props.url)
   const classes = useStyles()
 
   return (
@@ -69,7 +69,7 @@ Home.getInitialProps = async ({ req }) => {
   const lg_res = await fetch(`${url}/api/legs`)
   const legs = await lg_res.json()
   
-  return { itineraries: itineraries.data, legs: legs.data }
+  return { itineraries: itineraries.data, legs: legs.data, url: url }
 }
 
 export default Home
