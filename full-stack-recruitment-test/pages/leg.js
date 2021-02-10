@@ -342,7 +342,7 @@ const NewLeg = props => {
   )
 }
 
-NewLeg.getInitialProps = async ({ req }) => {
+NewLeg.getInitialProps = async ({ req}) => {
   const { origin } = absoluteUrl(req)
   const url = process.env.NODE_ENV === 'production' ? origin : 'http://localhost:3000'
 

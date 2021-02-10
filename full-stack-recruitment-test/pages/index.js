@@ -19,7 +19,7 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 const Home = props => {
-  console.log(props.url)
+  
   const classes = useStyles()
 
   return (
