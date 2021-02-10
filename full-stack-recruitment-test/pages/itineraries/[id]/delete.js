@@ -68,7 +68,7 @@ const DeleteItinerary = props => {
   )
 }
 
-DeleteItinerary.getInitialProps = async (req, res) => {
+DeleteItinerary.getInitialProps = async ({ req }) => {
   const {
     query: { id }
   } = req

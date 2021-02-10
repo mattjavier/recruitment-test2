@@ -339,7 +339,7 @@ const EditLeg = props => {
   )
 }
 
-EditLeg.getInitialProps = async (req, res) => {
+EditLeg.getInitialProps = async ({ req }) => {
   const {
     query: { id }
   } = req

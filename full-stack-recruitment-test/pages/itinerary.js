@@ -257,7 +257,7 @@ const NewItinerary = props => {
   )
 }
 
-NewItinerary.getInitialProps = async (req, res) => {
+NewItinerary.getInitialProps = async ({ req }) => {
   const { origin } = absoluteUrl(req)
   const url = process.env.NODE_ENV === 'production' ? origin : 'http://localhost:3000'
 

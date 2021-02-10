@@ -259,7 +259,7 @@ const EditItinerary = props => {
   )
 }
 
-EditItinerary.getInitialProps = async (req, res) => {
+EditItinerary.getInitialProps = async ({ req }) => {
   const {
     query: { id }
   } = req

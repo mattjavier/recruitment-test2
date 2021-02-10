@@ -90,7 +90,7 @@ const DeleteLeg = props => {
   )
 }
 
-DeleteLeg.getInitialProps = async (req, res) => {
+DeleteLeg.getInitialProps = async ({ req }) => {
   const {
     query: { id }
   } = req
