@@ -102,7 +102,7 @@ const EditLeg = props => {
   
   const updateLeg = async () => {
     try {
-      const res = await fetch(`${props.url}/api/legs/${router.query.id}`, {
+      const res = await fetch(`${props.path}/api/legs/${router.query.id}`, {
         method: 'PUT',
         headers: {
           'Accept': 'application/json',
@@ -339,20 +339,17 @@ const EditLeg = props => {
   )
 }
 
-EditLeg.getInitialProps = async ({ req }) => {
-  const {
-    query: { id }
-  } = req
+EditLeg.getInitialProps = async ({ req, query: { id } }) => {
 
   const { origin } = absoluteUrl(req)
-  const url = process.env.NODE_ENV === 'production' ? origin : 'http://localhost:3000'
+  const url = origin
 
   const al_res = await fetch(`${url}/api/airlines`)
   const airlines = await al_res.json()
   
   const lg_res = await fetch(`${url}/api/legs/${id}`)
   const leg = await lg_res.json()
-  return { leg: leg.data, airlines: airlines.data, url: url }
+  return { leg: leg.data, airlines: airlines.data, path: url }
 }
 
 export default EditLeg

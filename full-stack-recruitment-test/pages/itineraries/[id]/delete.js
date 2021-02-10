@@ -36,7 +36,7 @@ const DeleteItinerary = props => {
 
   const deleteItinerary = async () => {
     try {
-      const deletedItinerary = await fetch(`${props.url}/api/itineraries/${router.query.id}`, {
+      const deletedItinerary = await fetch(`${props.path}/api/itineraries/${router.query.id}`, {
         method: 'DELETE'
       })
 
@@ -68,13 +68,10 @@ const DeleteItinerary = props => {
   )
 }
 
-DeleteItinerary.getInitialProps = async ({ req }) => {
-  const {
-    query: { id }
-  } = req
+DeleteItinerary.getInitialProps = async ({ req, query: { id } }) => {
 
   const { origin } = absoluteUrl(req)
-  const url = process.env.NODE_ENV === 'production' ? origin : 'http://localhost:3000'
+  const url = origin
 
   const res = await fetch(`${url}/api/itineraries/${id}`)
   const itinerary = await res.json()
@@ -82,7 +79,7 @@ DeleteItinerary.getInitialProps = async ({ req }) => {
   const lg_res = await fetch(`${url}/api/legs`)
   const legs = await lg_res.json()
 
-  return { itinerary: itinerary.data, legs: legs.data, url: url }
+  return { itinerary: itinerary.data, legs: legs.data, path: url }
 }
 
 export default DeleteItinerary

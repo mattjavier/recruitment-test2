@@ -107,7 +107,7 @@ const NewItinerary = props => {
 
   const addItinerary = async () => {
     try {
-      const res = await fetch(`${props.url}/api/itineraries`, {
+      const res = await fetch(`${props.path}/api/itineraries`, {
         method: 'POST',
         headers: {
           'Accept': 'application/json',
@@ -259,7 +259,7 @@ const NewItinerary = props => {
 
 NewItinerary.getInitialProps = async ({ req }) => {
   const { origin } = absoluteUrl(req)
-  const url = process.env.NODE_ENV === 'production' ? origin : 'http://localhost:3000'
+  const url = origin
 
   const lg_res = await fetch(`${url}/api/legs`)
   const legs = await lg_res.json()
@@ -267,7 +267,7 @@ NewItinerary.getInitialProps = async ({ req }) => {
   const ag_res = await fetch(`${url}/api/agents`)
   const agents = await ag_res.json()
 
-  return { legs: legs.data, agents: agents.data, url: url }
+  return { legs: legs.data, agents: agents.data, path: url }
 }
 
 export default NewItinerary

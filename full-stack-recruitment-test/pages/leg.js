@@ -104,7 +104,7 @@ const NewLeg = props => {
   
   const addLeg = async () => {
     try {
-      const res = await fetch(`${props.url}/api/legs`, {
+      const res = await fetch(`${props.path}/api/legs`, {
         method: 'POST',
         headers: {
           'Accept': 'application/json',
@@ -344,13 +344,12 @@ const NewLeg = props => {
 
 NewLeg.getInitialProps = async ({ req}) => {
   const { origin } = absoluteUrl(req)
-  const url = process.env.NODE_ENV === 'production' ? origin : 'http://localhost:3000'
-
+  const url = origin
   const al_res = await fetch(`${url}/api/airlines`)
   const airlines = await al_res.json()
 
   
-  return { airlines: airlines.data, url: url }
+  return { airlines: airlines.data, path: url }
 }
 
 export default NewLeg

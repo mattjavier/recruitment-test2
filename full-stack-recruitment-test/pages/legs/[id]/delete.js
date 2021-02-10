@@ -48,12 +48,12 @@ const DeleteLeg = props => {
       let ids = references.map(reference => reference._id)
       
       for (let i = 0; i < ids.length; i++) {
-        const deletedIt = await fetch(`${props.url}/api/itineraries/${ids[i]}`, {
+        const deletedIt = await fetch(`${props.path}/api/itineraries/${ids[i]}`, {
           method: 'DELETE'
         })
       }
 
-      const deletedLeg = await fetch(`${props.url}/api/legs/${router.query.id}`, {
+      const deletedLeg = await fetch(`${props.path}/api/legs/${router.query.id}`, {
         method: 'DELETE',
       })
 
@@ -90,14 +90,10 @@ const DeleteLeg = props => {
   )
 }
 
-DeleteLeg.getInitialProps = async ({ req }) => {
-  const {
-    query: { id }
-  } = req
-
+DeleteLeg.getInitialProps = async ({ req, query: { id } }) => {
 
   const { origin } = absoluteUrl(req)
-  const url = process.env.NODE_ENV === 'production' ? origin : 'http://localhost:3000'
+  const url = origin
 
   const res = await fetch(`${url}/api/legs/${id}`)
   const leg = await res.json()
@@ -105,7 +101,7 @@ DeleteLeg.getInitialProps = async ({ req }) => {
   const it_res = await fetch(`${url}/api/itineraries`)
   const itineraries = await it_res.json()
  
-  return { leg: leg.data, itineraries: itineraries.data, url: url }
+  return { leg: leg.data, itineraries: itineraries.data, path: url }
 }
 
 export default DeleteLeg

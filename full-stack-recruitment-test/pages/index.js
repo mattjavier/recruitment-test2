@@ -61,7 +61,7 @@ const Home = props => {
 Home.getInitialProps = async ({ req }) => {
 
   const { origin } = absoluteUrl(req)
-  const url = process.env.NODE_ENV === 'production' ? origin : 'http://localhost:3000'
+  const url = origin
 
   const it_res = await fetch(`${url}/api/itineraries`)
   const itineraries = await it_res.json()
@@ -69,7 +69,7 @@ Home.getInitialProps = async ({ req }) => {
   const lg_res = await fetch(`${url}/api/legs`)
   const legs = await lg_res.json()
   
-  return { itineraries: itineraries.data, legs: legs.data, url: url }
+  return { itineraries: itineraries.data, legs: legs.data, path: url }
 }
 
 export default Home
