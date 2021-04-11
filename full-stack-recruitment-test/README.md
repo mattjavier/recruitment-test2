@@ -1,10 +1,6 @@
-# Skyscanner Full-Stack Recruitment Test
-
-This a full-stack application utilizing Next.js. The frontend is styled with Material-UI components, and MongoDB is used to serve as the database. 
-
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
-## Testing
+## Getting Started
 
 First, run the development server:
 
@@ -14,40 +10,25 @@ npm run dev
 yarn dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the application.
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-To test the database Schemas:
-```bash
-npm run test
-```
+You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
 
-## Usage
+[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
 
-Users can view a list of flight itineraries from the root page. Each `Itinerary` is made up of `Legs` (or flights) with the corresponding data:
-- departureTime
-- arrivalTime
-- departureAirport
-- arrivalAirport
-- duration
-- stops (potentially)
-- airline (name & ID)
+The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
 
-Each `Itinerary` includes: 
-- 2 `Legs`
-- price
-- flight agent
-- agent's rating
+## Learn More
 
-In the top navbar, there are two `Links`: 
-- Add Leg
-- Add Itinerary
+To learn more about Next.js, take a look at the following resources:
 
-User input is required for these two pages. After filling out the form, pressing the `Submit` button adds a leg or itinerary to the database. 
+- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
+- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
 
-On the main admin page, the user can filter the list of itineraries based on the agent. In doing so, the `Total Price` and `Average Price` for all itineraries displayed will change.
+You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
 
-Each leg and itinerary has an edit or delete button. If the `Edit` button is pressed (Pen Icon), then the user is taken to an `Edit` page for either Legs or Itineraries. Data for each leg or itinerary is pre-populated with the current selections, but modifications can be made. Pressing the `Submit` button again `PUTS` a modified leg or itinerary to the database. If the `Delete` button is pressed (Trash Icon), then the user will be shown the selected leg or itinerary. Another `Delete` button is provided. If pressed, the corresponding leg or itinerary is deleted from the database. If a leg is deleted, and there exists an itinerary that includes that leg, the corresponding itinerary will be deleted as well.
+## Deploy on Vercel
 
+The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
-
-
+Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
